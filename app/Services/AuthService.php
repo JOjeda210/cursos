@@ -33,7 +33,7 @@ class AuthService
         if(!$user) throw new \Exception('Usuario no encontrado'); 
         if (!$user->activo) throw new \Exception('Usuario inactivo');
         Hash::check($password, $user->password) ?: throw new \Exception('Contraseña incorrecta');
-        $token = JWTAuth::fromUser($user);        
+        $token = JWTAuth::tokenById($user->id_usuario);        
         return $token; 
         
     }
@@ -67,7 +67,25 @@ class AuthService
     }
     
     public function getUserFromToken($token)
-    {
+    {   
+        try
+        {
+            JWTAuth::setToken($token); 
+            $payload = JWTAuth::getPayload(); 
+            $userId = $payload -> get('sub'); 
+            $user = DB::table('usuarios')->where('id_usuario', $userId)->first(); 
+            if(!$user)
+            {
+                return null; 
+            }
+            unset($user->password);
+            return $user; 
+
+        }
+        catch (\Exception $e)
+        {
+            throw new \Exception('Token inválido o usuario no encontrado');
+        }
         
     }
 }
