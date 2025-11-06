@@ -38,7 +38,20 @@ class AuthService
         
     }
     
-   
+    public function logout($token)
+    {
+        try
+        {
+            JWTAuth::setToken($token);
+            JWTAuth::invalidate(); 
+            return true; 
+
+        }catch (\Exception $e)
+        {
+            throw new \Exception('Error al cerrar sesión: ' . $e->getMessage());
+        }
+       
+    }
     
     public function validateToken($token)
     {
