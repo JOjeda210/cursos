@@ -27,7 +27,18 @@ class AuthService
 
     }
     
+    public function login($email, $password)
+    {
+        $user = DB::table('usuarios')-> where('email',$email)->first();
+        if(!$user) throw new \Exception('Usuario no encontrado'); 
+        if (!$user->activo) throw new \Exception('Usuario inactivo');
+        Hash::check($password, $user->password) ?: throw new \Exception('Contraseña incorrecta');
+        $token = JWTAuth::fromUser($user);        
+        return $token; 
+        
+    }
     
+   
     
     public function validateToken($token)
     {
