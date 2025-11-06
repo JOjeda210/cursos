@@ -6,6 +6,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Services\AuthService; 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -45,6 +46,23 @@ class AuthController extends Controller
           return response()->json(['error' => $e->getMessage()], 401);
         }
 
+    }
+
+    public function logout (Request $request)
+    {
+        try
+        {
+            $token = JWTAuth::getToken(); 
+            $this->authService->logout($token); 
+            return response()->json([
+                'message' => 'Sesión cerrada '
+            ], 200);
+        }
+        catch (\Exception $e)
+        {
+             return response()->json(['error' => $e->getMessage()], 500);
+        }
+        
     }
 
 
