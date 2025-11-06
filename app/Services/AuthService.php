@@ -3,6 +3,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 
 class AuthService
@@ -30,11 +31,19 @@ class AuthService
     
     public function login($email, $password)
     {
-        $user = DB::table('usuarios')-> where('email',$email)->first();
-        if(!$user) throw new \Exception('Usuario no encontrado'); 
+        $user = DB::table('usuarios')->where('email', $email)->first();
+        if (!$user) throw new \Exception('Usuario no encontrado');
         if (!$user->activo) throw new \Exception('Usuario inactivo');
         Hash::check($password, $user->password) ?: throw new \Exception('Contraseña incorrecta');
-        $token = JWTAuth::tokenById($user->id_usuario);        
+
+        $jwtUser = new class($user->id_usuario) implements JWTSubject {
+            private $id;
+            public function __construct($id) { $this->id = $id; }
+            public function getJWTIdentifier() { return $this->id; }
+            public function getJWTCustomClaims() { return []; }
+        };
+
+        $token = JWTAuth::fromUser($jwtUser);
         return $token; 
         
     }

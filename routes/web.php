@@ -11,8 +11,3 @@ Route::get('/', function () {
 Route::get('/helth', [HealthController::class, 'check']); 
 
 
-// Endpoints de auth
-
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
