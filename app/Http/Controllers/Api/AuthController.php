@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Services\AuthService; 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -30,4 +31,21 @@ class AuthController extends Controller
             ], 500);
         }
     }
+
+    public function login(LoginRequest $lRequest)
+    {
+        try
+        {
+            $credentials = $lRequest ->validated(); 
+            $token = $this->authService->login($credentials['email'], $credentials['password']); 
+            return response()->json(['token' => $token], 200);
+        }
+        catch (\Exception $e)
+        {
+          return response()->json(['error' => $e->getMessage()], 401);
+        }
+
+    }
+
+
 }
