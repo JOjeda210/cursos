@@ -55,7 +55,15 @@ class AuthService
     
     public function validateToken($token)
     {
-        
+        try
+        {
+            JWTAuth::setToken($token); 
+            return JWTAuth::check();
+        }
+        catch (\Exception $e)
+        {
+            return false; 
+        }
     }
     
     public function getUserFromToken($token)
