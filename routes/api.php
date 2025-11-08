@@ -13,6 +13,6 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 // Esta ruta se implementará con el middleware cuando investigue como 
 //Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');

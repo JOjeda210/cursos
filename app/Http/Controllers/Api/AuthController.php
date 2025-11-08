@@ -50,18 +50,8 @@ class AuthController extends Controller
 
     public function logout (Request $request)
     {
-        try
-        {
-            $token = JWTAuth::getToken(); 
-            $this->authService->logout($token); 
-            return response()->json([
-                'message' => 'Sesión cerrada '
-            ], 200);
-        }
-        catch (\Exception $e)
-        {
-             return response()->json(['error' => $e->getMessage()], 500);
-        }
+        $this->authService->logout(); 
+        return response()->json(['message' => 'Sesión cerrada exitosamente']);
         
     }
 
