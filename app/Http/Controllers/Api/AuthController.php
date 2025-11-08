@@ -48,11 +48,11 @@ class AuthController extends Controller
 
     }
 
-    public function logout (Request $request)
+    public function logout(Request $request)
     {
-        $this->authService->logout(); 
+        $token = $request->bearerToken();  
+        $this->authService->logout($token);  
         return response()->json(['message' => 'Sesión cerrada exitosamente']);
-        
     }
 
 
