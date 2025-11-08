@@ -9,6 +9,8 @@ Route::get('/', function () {
 });
 // heathchek de db:
 Route::get('/helth', [HealthController::class, 'check']);
+
+// Retrona vista de promociones - byFlor
 Route::get('/promociones', function () {
     return view('promociones');
 });
