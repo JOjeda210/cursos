@@ -9,3 +9,6 @@ Route::get('/', function () {
 });
 // heathchek de db:
 Route::get('/helth', [HealthController::class, 'check']);
+Route::get('/promociones', function () {
+    return view('promociones');
+});
