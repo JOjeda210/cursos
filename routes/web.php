@@ -8,6 +8,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 // heathchek de db:
-Route::get('/helth', [HealthController::class, 'check']); 
-
-
+Route::get('/helth', [HealthController::class, 'check']);

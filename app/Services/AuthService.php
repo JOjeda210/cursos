@@ -52,8 +52,8 @@ class AuthService
     {
         try
         {
-            JWTAuth::invalidate(JWTAuth::getToken()); 
-            return true; 
+            JWTAuth::invalidate(); 
+            return true;
 
         }catch (\Exception $e)
         {
