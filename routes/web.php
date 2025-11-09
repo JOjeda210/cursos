@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\HealthController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('about');
 });
 // heathchek de db:
 Route::get('/helth', [HealthController::class, 'check']);
@@ -16,6 +16,6 @@ Route::get('/promociones', function () {
 })->name('promociones');
 
 // Retrona vista de promociones - byFlor
-Route::get('/about', function () {
-    return view('about');
-});
+// Route::get('/about', function () {
+//     return view('about');
+// });
