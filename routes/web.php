@@ -13,4 +13,9 @@ Route::get('/helth', [HealthController::class, 'check']);
 // Retrona vista de promociones - byFlor
 Route::get('/promociones', function () {
     return view('promociones');
+})->name('promociones');
+
+// Retrona vista de promociones - byFlor
+Route::get('/about', function () {
+    return view('about');
 });

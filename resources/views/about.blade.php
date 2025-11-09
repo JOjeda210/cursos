@@ -7,7 +7,7 @@
   
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-  <link rel="stylesheet" href="estilos-sobre-nosotros.css" />
+  <link rel="stylesheet" href="{{ asset('css/about.css') }}">
 </head>
 <body>
 
@@ -73,7 +73,7 @@
           <p class="mb-4">
             Con este enfoque, garantizamos que el aprendizaje sea accesible y efectivo. Únete a miles de alumnos que están transformando su futuro profesional a través de nuestra metodología práctica.
           </p>
-          <a href="promociones.html" class="btn btn-outline-custom btn-lg">
+          <a href="{{route('promociones')}}" class="btn btn-outline-custom btn-lg">
             Ver nuestras promociones
           </a>
         </div>
