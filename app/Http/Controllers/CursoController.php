@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\CursosService;
+use App\Services\CursoService;
 use App\Http\Controllers\Controller;
 
 class CursoController extends Controller
 {
     protected $cursoService;
-    public function __construct(CursoServices $cursoService)
+    public function __construct(CursoService $cursoService)
     {
         $this -> cursoService = $cursoService;
     }
