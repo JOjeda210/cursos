@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catálogo </title>
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Tipografía -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href= "/public/css/catalogo.css">
+</head>
+
+<body>  
+
+
+  <section class="banner">
+    <h1>Catálogo de Cursos</h1>
+    <p>Explora todos los cursos disponibles en     </p>
+  </section>
+
+  <section class="promociones">
+    <div class="container">
+      <h2>Cursos Disponibles</h2>
+      <p class="descripcion">Encuentra el curso ideal para ti y sigue aprendiendo a tu ritmo</p>
+
+      <div class="row g-4">
+
+        <!-- Curso 1 -->
+        <div class="col-md-4">
+          <div class="card promo-card h-100">
+            <img src="catalogo1.jpeg" alt="Curso de Python">
+            <div class="card-body text-center">
+              <h5>Programación en Python</h5>
+              <p>Aprende a programar con uno de los lenguajes más populares del mundo.</p>
+              <button class="btn btn-miaula mt-2">Ver curso</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Curso 2 -->
+        <div class="col-md-4">
+          <div class="card promo-card h-100">
+            <img src="catologo2.jpg" alt="Curso de Diseño UI/UX">
+            <div class="card-body text-center">
+              <h5>Diseño UI/UX</h5>
+              <p>Crea interfaces atractivas y centradas en la experiencia del usuario.</p>
+              <button class="btn btn-miaula mt-2">Ver curso</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Curso 3 -->
+        <div class="col-md-4">
+          <div class="card promo-card h-100">
+            <img src="catalogo3.png" alt="Curso de Bases de Datos">
+            <div class="card-body text-center">
+              <h5>Bases de Datos con MySQL</h5>
+              <p>Aprende a diseñar, consultar y administrar bases de datos.</p>
+              <button class="btn btn-miaula mt-2">Ver curso</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row g-4 mt-4">
+
+        <!-- Curso 4 -->
+        <div class="col-md-4">
+          <div class="card promo-card h-100">
+            <img src="catalogo4.jpeg" alt="Curso de JavaScript">
+            <div class="card-body text-center">
+              <h5>JavaScript Moderno</h5>
+              <p>Crea sitios web dinámicos e interactivos con JS moderno.</p>
+              <button class="btn btn-miaula mt-2">Ver curso</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Curso 5 -->
+        <div class="col-md-4">
+          <div class="card promo-card h-100">
+            <img src="catalogo5.jpeg" alt="Curso de Marketing Digital">
+            <div class="card-body text-center">
+              <h5>Marketing Digital</h5>
+              <p>Domina las estrategias para crecer en redes sociales y posicionamiento web.</p>
+              <button class="btn btn-miaula mt-2">Ver curso</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Curso 6 -->
+        <div class="col-md-4">
+          <div class="card promo-card h-100">
+            <img src="catalogo6.jpeg" alt="Curso de Excel Avanzado">
+            <div class="card-body text-center">
+              <h5>Excel Avanzado</h5>
+              <p>Aprende fórmulas, tablas dinámicas y automatiza tus tareas.</p>
+              <button class="btn btn-miaula mt-2">Ver curso</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Mi Aula - Todos los derechos reservados.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/js/script-catalogo.js></script>
+
+</body>
+</html>

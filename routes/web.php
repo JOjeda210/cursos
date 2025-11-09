@@ -14,3 +14,8 @@ Route::get('/helth', [HealthController::class, 'check']);
 Route::get('/promociones', function () {
     return view('promociones');
 });
+// Retrona vista de catalogos - byEstefani
+Route::get('/catalogos', function () {
+    return view('catalogos');
+});
+
