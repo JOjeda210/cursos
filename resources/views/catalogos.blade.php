@@ -11,7 +11,7 @@
   <!-- Tipografía -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="/public/css/catalogo.css">
+  <link rel="stylesheet" href="{{ asset('css/catalogo.css') }}">
 </head>
 
 <body>  
@@ -19,7 +19,7 @@
 
   <section class="banner">
     <h1>Catálogo de Cursos</h1>
-    <p>Explora todos los cursos disponibles en     </p>
+    <p>Explora todos los cursos disponibles en </p>
   </section>
 
   <section class="promociones">
@@ -32,7 +32,7 @@
         <!-- Curso 1 -->
         <div class="col-md-4">
           <div class="card promo-card h-100">
-            <img src="catalogo1.jpeg" alt="Curso de Python">
+            <img src="{{ asset('img/catalogo1.jpeg') }}" alt="Curso de Python">
             <div class="card-body text-center">
               <h5>Programación en Python</h5>
               <p>Aprende a programar con uno de los lenguajes más populares del mundo.</p>
@@ -44,7 +44,7 @@
         <!-- Curso 2 -->
         <div class="col-md-4">
           <div class="card promo-card h-100">
-            <img src="catalogo2.jpg" alt="Curso de Diseño UI/UX">
+            <img src="{{ asset('img/catalogo2.jpg') }}" alt="Curso de Diseño UI/UX">
             <div class="card-body text-center">
               <h5>Diseño UI/UX</h5>
               <p>Crea interfaces atractivas y centradas en la experiencia del usuario.</p>
@@ -56,7 +56,7 @@
         <!-- Curso 3 -->
         <div class="col-md-4">
           <div class="card promo-card h-100">
-            <img src="catalogo3.png" alt="Curso de Bases de Datos">
+            <img src="{{ asset('img/catalogo3.png') }}" alt="Curso de Bases de Datos">
             <div class="card-body text-center">
               <h5>Bases de Datos con MySQL</h5>
               <p>Aprende a diseñar, consultar y administrar bases de datos.</p>
@@ -72,7 +72,7 @@
         <!-- Curso 4 -->
         <div class="col-md-4">
           <div class="card promo-card h-100">
-            <img src="catalogo4.jpeg" alt="Curso de JavaScript">
+            <img src="{{ asset('img/catalogo4.jpeg') }}" alt="Curso de JavaScript">
             <div class="card-body text-center">
               <h5>JavaScript Moderno</h5>
               <p>Crea sitios web dinámicos e interactivos con JS moderno.</p>
@@ -84,7 +84,7 @@
         <!-- Curso 5 -->
         <div class="col-md-4">
           <div class="card promo-card h-100">
-            <img src="catalogo5.jpeg" alt="Curso de Marketing Digital">
+            <img src="{{ asset('img/catalogo5.jpeg') }}" alt="Curso de Marketing Digital">
             <div class="card-body text-center">
               <h5>Marketing Digital</h5>
               <p>Domina las estrategias para crecer en redes sociales y posicionamiento web.</p>
@@ -96,7 +96,7 @@
         <!-- Curso 6 -->
         <div class="col-md-4">
           <div class="card promo-card h-100">
-            <img src="catalogo6.jpeg" alt="Curso de Excel Avanzado">
+            <img src="{{ asset('img/catalogo6.jpeg') }}" alt="Curso de Excel Avanzado">
             <div class="card-body text-center">
               <h5>Excel Avanzado</h5>
               <p>Aprende fórmulas, tablas dinámicas y automatiza tus tareas.</p>
@@ -117,7 +117,7 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/public/js/script-catalogo.js"></script>
+  <script src="{{ asset('js/script-catalogo.js') }}"></script>
 
 </body>
 </html>

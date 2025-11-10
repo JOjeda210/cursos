@@ -7,7 +7,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/registro.css">
+  <link rel="stylesheet" href="{{ asset('css/registro.css') }}">
 </head>
 
 <body>
@@ -65,6 +65,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/public/js/registro.js"></script>
+  <script src="{{ asset('js/registro.js') }}"></script>
 </body>
 </html>

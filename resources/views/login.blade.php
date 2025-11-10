@@ -10,7 +10,7 @@
   <!-- Tipografía -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 </head>
 
 <body>
@@ -42,7 +42,7 @@
 
                 <p class="text-center mt-3">
                   ¿No tienes una cuenta?
-                  <a href="registro.html" class="link">Regístrate aquí</a>
+                  <a href="{{route('registro')}}" class="link">Regístrate aquí</a>
                 </p>
               </form>
 
@@ -61,6 +61,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- JS personalizado -->
-  <script src="/public/js/login.js"></script>
+  <script src="{{ asset('js/login.js') }}"></script>
 </body>
 </html>
