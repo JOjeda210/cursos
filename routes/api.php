@@ -16,3 +16,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 // Esta ruta se implementará con el middleware cuando investigue como 
 //Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
+
+// Endpoints de cursos
+Route::get('/cursos', [App\Http\Controllers\CursoController::class, 'index']);
+Route::get('/cursos/{id}', [App\Http\Controllers\CursoController::class, 'show']);

@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\HealthController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('about');
 });
 // heathchek de db:
 Route::get('/helth', [HealthController::class, 'check']);
@@ -13,9 +13,15 @@ Route::get('/helth', [HealthController::class, 'check']);
 // Retrona vista de promociones - byFlor
 Route::get('/promociones', function () {
     return view('promociones');
-});
+})->name('promociones');
 // Retrona vista de catalogos - byEstefani
 Route::get('/catalogos', function () {
     return view('catalogos');
 });
 
+
+
+// Retrona vista de promociones - byFlor
+// Route::get('/about', function () {
+//     return view('about');
+// });
