@@ -11,7 +11,7 @@
   <!-- Tipografía -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href= "/public/css/catalogo.css">
+  <link rel="stylesheet" href="/public/css/catalogo.css">
 </head>
 
 <body>  
@@ -44,7 +44,7 @@
         <!-- Curso 2 -->
         <div class="col-md-4">
           <div class="card promo-card h-100">
-            <img src="catologo2.jpg" alt="Curso de Diseño UI/UX">
+            <img src="catalogo2.jpg" alt="Curso de Diseño UI/UX">
             <div class="card-body text-center">
               <h5>Diseño UI/UX</h5>
               <p>Crea interfaces atractivas y centradas en la experiencia del usuario.</p>
@@ -112,12 +112,12 @@
 
   <!-- Footer -->
   <footer>
-    © 2025 Mi Aula - Todos los derechos reservados.
+    © 2025 Cursos - Todos los derechos reservados.
   </footer>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/public/js/script-catalogo.js></script>
+<script src="/public/js/script-catalogo.js"></script>
 
 </body>
 </html>

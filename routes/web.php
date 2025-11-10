@@ -20,8 +20,15 @@ Route::get('/catalogos', function () {
 });
 
 
-
 // Retrona vista de promociones - byFlor
 // Route::get('/about', function () {
 //     return view('about');
 // });
+// Retrona vista de login -byEstefani
+Route::get('/login', function () {
+    return view('login');
+});
+// Retrona vista de registro -byEstefani
+Route::get('/registro', function () {
+    return view('registro');
+});
