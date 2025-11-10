@@ -18,4 +18,11 @@ Route::get('/promociones', function () {
 Route::get('/catalogos', function () {
     return view('catalogos');
 });
-
+// Retrona vista de login -byEstefani
+Route::get('/login', function () {
+    return view('login');
+});
+// Retrona vista de registro -byEstefani
+Route::get('/registro', function () {
+    return view('registro');
+});
