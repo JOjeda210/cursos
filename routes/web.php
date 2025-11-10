@@ -14,8 +14,21 @@ Route::get('/helth', [HealthController::class, 'check']);
 Route::get('/promociones', function () {
     return view('promociones');
 })->name('promociones');
+// Retrona vista de catalogos - byEstefani
+Route::get('/catalogos', function () {
+    return view('catalogos');
+});
+
 
 // Retrona vista de promociones - byFlor
 // Route::get('/about', function () {
 //     return view('about');
 // });
+// Retrona vista de login -byEstefani
+Route::get('/login', function () {
+    return view('login');
+});
+// Retrona vista de registro -byEstefani
+Route::get('/registro', function () {
+    return view('registro');
+});
