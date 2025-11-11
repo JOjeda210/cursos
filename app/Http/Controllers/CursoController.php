@@ -25,4 +25,9 @@ class CursoController extends Controller
         $curso = $this -> cursoService -> obtenerCursoPorId($id);
         return response() -> json($curso);
     }
+
+    
+
+
+
 }
