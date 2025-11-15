@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\CursoService;
+use App\Services\AuthService;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 
 class CursoController extends Controller
 {
-    protected $cursoService;
-    public function __construct(CursoService $cursoService)
+    protected $cursoService, $_authService;
+    public function __construct(CursoService $cursoService, AuthService $authservice)
     {
         $this -> cursoService = $cursoService;
+        $this -> _authService = $authservice;
     }
 
     public function index()
@@ -25,4 +28,7 @@ class CursoController extends Controller
         $curso = $this -> cursoService -> obtenerCursoPorId($id);
         return response() -> json($curso);
     }
+
+   
+
 }

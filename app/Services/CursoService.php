@@ -20,4 +20,18 @@ class CursoService
         $sql = "SELECT * FROM cursos WHERE id_curso = ? LIMIT 1";
         return DB::selectOne($sql, [$id]);
     }
+
+    public function getMyCourses($id)
+    {
+        $query = " SELECT titulo,descripcion, imagen_portada 
+                    FROM cursos c
+                    JOIN inscripciones i ON c.id_curso = i.id_curso
+                    WHERE i.id_usuario = ?"; 
+                            
+        return DB::select($query,[$id]);
+    }
+
+
+
+
 }
