@@ -25,11 +25,12 @@ Route::get('/cursos', [App\Http\Controllers\CursoController::class, 'index']);
 Route::get('/cursos/{id}', [App\Http\Controllers\CursoController::class, 'show']);
 
 // Endpoints de favoritos
-Route::middleware('auth:sanctum') -> group(function () 
-{
+//Route::middleware('auth:sanctum') -> group(function () 
+//{
     Route::post('/favoritos', [FavoritoController::class, 'agregarFavorito']);
     Route::delete('/favoritos', [FavoritoController::class, 'eliminarFavorito']);
-});
+//});
 
 // Endpoints de comentarios
 Route::post('/comentarios', [ComentarioController::class, 'crear']);
+Route::delete('/comentarios/{id_comentario}', [ComentarioController::class, 'eliminar']);

@@ -29,14 +29,44 @@ class ComentarioController extends Controller
             $cursoID = $request -> input('id_curso');
             $contenido = $request -> input('contenido');
 
-            $sql_insert = "insert into comentarios (id_usuario, id_curso, contenido, created_at, updated_at) values (?, ?, ?, now(), now())"; 
+            $sql_insert = "insert into comentarios (id_usuario, id_curso, contenido, fecha_comentario) values (?, ?, ?, now())"; 
             DB::insert($sql_insert, [$usuarioID, $cursoID, $contenido]);
             return response() -> json(['message' => 'Comentario creado exitosamente'], 201);
         }
         catch(\Exception $e)
         {
             Log::error('Error al crear comentario: ' . $e -> getMessage());
-            return response() -> json(['error' => 'Error al crear comentario'], 500);
+            return response() -> json(['error_real' => $e -> getMessage()], 500);
+        }
+    }
+
+    public function eliminar(Request $request, $id_comentario)
+    {
+        try
+        {
+            $usuarioID = Auth::user() -> id_usuario;
+            $sql_find = "select id_usuario from comentarios where id_comentario = ?";
+            $comentario = DB::selectOne($sql_find, [$id_comentario]);
+
+            if(!$comentario)
+            {
+                return response() -> json(['error' => 'Comentario no encontrado'], 404);
+            }
+
+            if($comentario -> id_usuario != $usuarioID)
+            {
+                return response() -> json(['error' => 'No tienes permiso para eliminar este comentario'], 403);
+            }
+
+            $sql_delete = "delete from comentarios where id_comentario = ?";
+            DB::delete($sql_delete, [$id_comentario]);
+            return response() -> json(['message' => 'Comentario eliminado exitosamente'], 200);
+        }
+
+        catch(\Exception $e)
+        {
+            Log::error('Error al eliminar comentario: ' . $e -> getMessage());
+            return response() -> json(['error_real' => $e -> getMessage()], 500);
         }
     }
 }

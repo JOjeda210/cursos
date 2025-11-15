@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; 
-use Illuminate\Support\Facades\DB;  
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class FavoritoController extends Controller
@@ -18,7 +18,7 @@ class FavoritoController extends Controller
 
       if($validator -> fails())
       {
-        return responce() -> json(['error' => $validator -> errors()], 422);
+        return response() -> json(['error' => $validator -> errors()], 422);
       }
 
       try
@@ -43,11 +43,11 @@ class FavoritoController extends Controller
         catch(\Exception $e)
         {
             Log::error('Error al agregar curso a favoritos: ' . $e -> getMessage());
-            return response() -> json(['error' => 'Error al agregar curso a favoritos'], 500);
+            return response() -> json(['error_real' => $e -> getMessage()], 500);
         }
     }
 
-    public function eliminarFavorito(Request $requests)
+    public function eliminarFavorito(Request $request)
     {
         $validator = Validator::make($request -> all(), [
             'id_curso' => 'required|integer',
