@@ -25,3 +25,4 @@ Route::get('/cursos/{id}', [App\Http\Controllers\CursoController::class, 'show']
 
 // Endpoint de cursos privados, por ID 
 Route::get('/mis-cursos',[CursoController::class,'indexMyCourses']);
+

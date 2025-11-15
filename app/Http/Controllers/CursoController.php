@@ -7,6 +7,8 @@ use App\Services\CursoService;
 use App\Services\AuthService;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Courses\EnrollRequest;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class CursoController extends Controller
 {
@@ -46,5 +48,7 @@ class CursoController extends Controller
             ], 401);
         }
     }
+
+    
 
 }
