@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\This;
 
 class CursoService
 {
@@ -31,6 +32,7 @@ class CursoService
         return DB::select($query,[$id]);
     }
 
+   
 
 
 
