@@ -20,3 +20,10 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // Endpoints de cursos
 Route::get('/cursos', [App\Http\Controllers\CursoController::class, 'index']);
 Route::get('/cursos/{id}', [App\Http\Controllers\CursoController::class, 'show']);
+
+// Endpoints de favoritos
+Route::middleware('auth:sanctum') -> group(function () 
+{
+    Route::post('/favoritos', [FavoritoController::class, 'agregarFavorito']);
+    Route::delete('/favoritos', [FavoritoController::class, 'eliminarFavorito']);
+});
