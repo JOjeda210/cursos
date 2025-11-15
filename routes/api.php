@@ -26,3 +26,6 @@ Route::get('/cursos/{id}', [App\Http\Controllers\CursoController::class, 'show']
 // Endpoint de cursos privados, por ID 
 Route::get('/mis-cursos',[CursoController::class,'indexMyCourses']);
 
+// endpoint para INSCRIBIR a un usuario a un curso.  
+Route::post('/enroll',[CursoController::class,'enroll']);
+
