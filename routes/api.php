@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\CursoController; 
+use App\Http\Controllers\FavoritoController; 
+use App\Http\Controllers\ComentarioController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -27,3 +30,6 @@ Route::middleware('auth:sanctum') -> group(function ()
     Route::post('/favoritos', [FavoritoController::class, 'agregarFavorito']);
     Route::delete('/favoritos', [FavoritoController::class, 'eliminarFavorito']);
 });
+
+// Endpoints de comentarios
+Route::post('/comentarios', [ComentarioController::class, 'crear']);
