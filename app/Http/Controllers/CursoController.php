@@ -29,6 +29,22 @@ class CursoController extends Controller
         return response() -> json($curso);
     }
 
-   
+    public function indexMyCourses(Request $request)
+    {
+        try
+        {
+            $token = JWTAuth::getToken(); 
+            $user = $this->_authService->getUserFromToken($token);
+            $courses = $this->cursoService->getMyCourses($user->id_usuario);
+            return response()->json($courses, 200);
+        }
+        catch (\Throwable $t)
+        {
+            return response()->json([
+                'error' => 'Ocurrió un error interno durante el obtenido de tus cursos.',
+                'message' => $t->getMessage() 
+            ], 401);
+        }
+    }
 
 }
