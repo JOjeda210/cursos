@@ -49,6 +49,38 @@ class CursoController extends Controller
         }
     }
 
-    
+    public function enroll(EnrollRequest $request)
+    {
+        try
+        {
+            // validaciones por el servicio de auth
+            $token = JWTAuth::getToken(); 
+            $user = $this->_authService->getUserFromToken($token);
+
+            $validedData = $request->validated(); 
+            $idCourse = $validedData['id_curso'];
+
+            $this->cursoService->enRoll($user->id_usuario, $idCourse);
+            return response()->json(['message' => 'Inscripción exitosa'], 201);
+        }
+        catch (JWTException $e) 
+        {
+            // Error Específico de Autenticación
+            return response()->json(['error' => 'No autorizado: ' . $e->getMessage()], 401);
+        }
+        catch (\Exception $e) 
+        {
+            // Error Específico de Negocio (ej. "Ya inscrito")
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+        catch (\Throwable $t) 
+        {
+            // Cualquier otro error fatal (código 500)
+            return response()->json([
+                'error' => 'Ocurrió un error fatal en el servidor.',
+                'message' => $t->getMessage() 
+            ], 500);
+        }
+    }
 
 }
