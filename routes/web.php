@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\HealthController;
+use App\Http\Controllers\ComentariosController;
 
 Route::get('/', function () {
     return view('about');
@@ -30,3 +31,6 @@ Route::get('/login', function () {
 Route::get('/registro', function () {
     return view('registro');
 })->name('registro');
+
+// añade esto abajo de tus otras rutas:
+Route::post('/comentarios', [ComentariosController::class, 'store'])->name('comentarios.store');
