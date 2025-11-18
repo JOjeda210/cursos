@@ -30,3 +30,8 @@ Route::get('/login', function () {
 Route::get('/registro', function () {
     return view('registro');
 })->name('registro');
+
+
+Route::get('/mis-cursos', function () {
+    return view('mis-cursos');
+})->name('misCursos');
