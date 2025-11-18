@@ -1,0 +1,84 @@
+/* === ESTILOS PARA EL MODAL === */
+
+#modalComentario .modal-content {
+    background: #f6f0f0;
+    border-radius: 20px;
+    padding: 20px;
+    border: none;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+#modalComentario .modal-header {
+    border-bottom: none;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+#modalComentario .modal-title {
+    color: #6A38CF;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+#modalComentario .btn-close {
+    filter: brightness(0) saturate(100%) invert(16%) sepia(82%) saturate(6600%) hue-rotate(262deg) brightness(84%) contrast(109%);
+}
+
+/* Inputs dentro del modal */
+#modalComentario label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+    color: #4B158F;
+}
+
+#modalComentario input,
+#modalComentario textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #c9a7ff;
+    border-radius: 12px;
+    margin-top: 5px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+#modalComentario input:focus,
+#modalComentario textarea:focus {
+    border-color: #6A38CF;
+    box-shadow: 0 0 4px #b08cff;
+}
+
+/* Botón */
+#modalComentario .btn {
+    width: 100%;
+    background: linear-gradient(135deg, #7b2ff7, #f107a3);
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 17px;
+    margin-top: 25px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#modalComentario .btn:hover {
+    background: #5326a8;
+}
+
+/* Mensaje */
+#modalComentario .mensaje {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#modalComentario .error {
+    color: #D9534F;
+}
+
+#modalComentario .ok {
+    color: #28a745;
+}

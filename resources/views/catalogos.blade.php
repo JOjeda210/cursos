@@ -12,6 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{{ asset('css/catalogo.css') }}">
+
+   <link rel="stylesheet" href="{{ asset('css/comentarios.css') }}">
 </head>
 
 <body>  
@@ -37,6 +39,10 @@
               <h5>Programación en Python</h5>
               <p>Aprende a programar con uno de los lenguajes más populares del mundo.</p>
               <button class="btn btn-miaula mt-2">Ver curso</button>
+              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
+                Dejar Comentario
+              </button>
+
             </div>
           </div>
         </div>
@@ -49,6 +55,10 @@
               <h5>Diseño UI/UX</h5>
               <p>Crea interfaces atractivas y centradas en la experiencia del usuario.</p>
               <button class="btn btn-miaula mt-2">Ver curso</button>
+              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
+                Dejar Comentario
+              </button>   
+              
             </div>
           </div>
         </div>
@@ -61,6 +71,9 @@
               <h5>Bases de Datos con MySQL</h5>
               <p>Aprende a diseñar, consultar y administrar bases de datos.</p>
               <button class="btn btn-miaula mt-2">Ver curso</button>
+              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
+                Dejar Comentario
+              </button>
             </div>
           </div>
         </div>
@@ -77,6 +90,9 @@
               <h5>JavaScript Moderno</h5>
               <p>Crea sitios web dinámicos e interactivos con JS moderno.</p>
               <button class="btn btn-miaula mt-2">Ver curso</button>
+              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
+                Dejar Comentario
+              </button>
             </div>
           </div>
         </div>
@@ -89,6 +105,9 @@
               <h5>Marketing Digital</h5>
               <p>Domina las estrategias para crecer en redes sociales y posicionamiento web.</p>
               <button class="btn btn-miaula mt-2">Ver curso</button>
+              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
+              Dejar Comentario
+              </button>
             </div>
           </div>
         </div>
@@ -101,6 +120,9 @@
               <h5>Excel Avanzado</h5>
               <p>Aprende fórmulas, tablas dinámicas y automatiza tus tareas.</p>
               <button class="btn btn-miaula mt-2">Ver curso</button>
+              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
+                Dejar Comentario
+              </button>
             </div>
           </div>
         </div>
@@ -118,6 +140,11 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{ asset('js/script-catalogo.js') }}"></script>
+
+
+@include('comentarios')
+
+
 
 </body>
 </html>
