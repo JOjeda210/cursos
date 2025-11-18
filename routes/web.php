@@ -6,30 +6,30 @@ use App\Http\Controllers\HealthController;
 use App\Http\Controllers\ComentariosController;
 
 Route::get('/', function () {
-    return view('about');
+    return view('client.about');
 });
 // heathchek de db:
 Route::get('/helth', [HealthController::class, 'check']);
 
 // Retrona vista de promociones - byFlor
 Route::get('/promociones', function () {
-    return view('promociones');
+    return view('client.promociones');
 })->name('promociones');
 
 // Retrona vista de catalogos - byEstefani
 Route::get('/catalogos', function () {
-    return view('catalogos');
+    return view('client.catalogo-publico');
 })->name('catalogo');
 
 
 // Retrona vista de login -byEstefani
 Route::get('/login', function () {
-    return view('login');
+    return view('client.login');
 });
 
 // Retrona vista de registro -byEstefani
 Route::get('/registro', function () {
-    return view('registro');
+    return view('client.registro');
 })->name('registro');
 
 // Endpoint comentarios fake:
