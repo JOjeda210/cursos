@@ -32,7 +32,7 @@ Route::get('/registro', function () {
     return view('registro');
 })->name('registro');
 
-// añade esto abajo de tus otras rutas:
+// Endpoint comentarios fake:
 Route::post('/comentarios', [ComentariosController::class, 'store'])->name('comentarios.store');
 
 Route::get('/mis-cursos', function () {
