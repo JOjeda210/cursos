@@ -34,3 +34,7 @@ Route::get('/registro', function () {
 
 // añade esto abajo de tus otras rutas:
 Route::post('/comentarios', [ComentariosController::class, 'store'])->name('comentarios.store');
+
+Route::get('/mis-cursos', function () {
+    return view('mis-cursos');
+})->name('misCursos');
