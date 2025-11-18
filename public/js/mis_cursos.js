@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function cargarCursos() {
-    
     const token = localStorage.getItem('jwt_token');
 
     if (!token) {
@@ -22,39 +21,42 @@ function cargarCursos() {
         if (response.status === 401) {
             localStorage.removeItem('jwt_token');
             window.location.href = '/login';
-            return; 
+            return;
         }
         if (!response.ok) {
             throw new Error('Error del servidor: ' + response.status);
         }
-        return response.json(); 
+        return response.json();
     })
     .then(data => {
-        const cursos = data; 
+        console.log('Datos recibidos:', data); // Debug
+        const cursos = data;
         const container = document.getElementById('cursos-container');
 
         if (!cursos || cursos.length === 0) {
             container.innerHTML = '<h4 class="text-white text-center">No tienes cursos inscritos.</h4>';
         } else {
             const htmlDeCursos = cursos.map(curso => {
-                
+                // Usando snake_case como viene de la BD
                 return `
                     <div class="col-md-6 col-lg-4 d-flex">
                         <div class="promo-card">
-                            <img src="${curso.imagenPortada}" class="card-img-top" alt="${curso.titulo}">
+                            <img src="${curso.imagen_portada || 'https://via.placeholder.com/400x200'}" 
+                                 class="card-img-top" 
+                                 alt="${curso.titulo}">
                             
                             <div class="card-body">
                                 <h5 class="card-title mb-2">${curso.titulo}</h5>
-                                <p class="card-description mb-3">${curso.descripcion}</p>
+                                <p class="card-description mb-3">${curso.descripcion || 'Sin descripción'}</p>
                             </div>
 
                             <div class="card-footer-action">
-                                <a href="#" class="btn-curso-ver" data-bs-toggle="modal" data-bs-target="#${curso.modalId}">Ver curso</a>
+                                <a href="#" class="btn-curso-ver" data-bs-toggle="modal" data-bs-target="#modalPython">Ver curso</a>
                             </div>
                         </div>
                     </div>
                 `;
-            }).join(''); 
+            }).join('');
 
             container.innerHTML = htmlDeCursos;
         }

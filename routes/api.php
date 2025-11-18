@@ -11,21 +11,17 @@ Route::get('/user', function (Request $request) {
 
 
 // Endpoints de auth
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
-// Esta ruta se implementará con el middleware cuando investigue como 
-//Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
 // Endpoints de cursos públicos
-Route::get('/cursos', [App\Http\Controllers\CursoController::class, 'index']);
-Route::get('/cursos/{id}', [App\Http\Controllers\CursoController::class, 'show']);
+Route::get('/cursos', [CursoController::class, 'index']);
+Route::get('/cursos/{id}', [CursoController::class, 'show']);
 
-
-// Endpoint de cursos privados, por ID 
-Route::get('/mis-cursos',[CursoController::class,'indexMyCourses']);
-
-// endpoint para INSCRIBIR a un usuario a un curso.  
-Route::post('/enroll',[CursoController::class,'enroll']);
+// Endpoints protegidos con JWT
+Route::middleware('jwt.auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/mis-cursos', [CursoController::class, 'indexMyCourses']);
+    Route::post('/enroll', [CursoController::class, 'enroll']);
+});
 
