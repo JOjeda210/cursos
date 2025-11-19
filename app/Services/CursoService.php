@@ -23,12 +23,26 @@ class CursoService
 
     public function getMyCourses($id)
     {
-        $query = " SELECT titulo,descripcion, imagen_portada 
-                    FROM cursos c
-                    JOIN inscripciones i ON c.id_curso = i.id_curso
-                    WHERE i.id_usuario = ?"; 
-                            
-        return DB::select($query,[$id]);
+        $query = "SELECT 
+                    c.titulo,
+                    c.descripcion, 
+                    c.imagen_portada
+                  FROM cursos c
+                  JOIN inscripciones i ON c.id_curso = i.id_curso
+                  WHERE i.id_usuario = ?"; 
+        
+        $cursos = DB::select($query, [$id]);
+        
+        foreach ($cursos as $curso) {
+            if ($curso->imagen_portada) {
+                // Las imágenes están en public/cursos/
+                $curso->imagen_portada = asset($curso->imagen_portada);
+            } else {
+                $curso->imagen_portada = 'https://via.placeholder.com/400x200';
+            }
+        }
+        
+        return $cursos;
     }
 
     public function enRoll($idUser, $idCourse)
