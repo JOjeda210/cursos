@@ -9,12 +9,16 @@ use App\Http\Controllers\ComentarioController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
-})->middleware('auth:sanctum');
+})->middleware('jwt.auth');
+
+/// ENDPOINTS API REST AUTH
 
 
 // Endpoints de auth
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+/// ENDPOINTS DE OPERACION 
 
 // Endpoints de cursos
 Route::get('/cursos', [App\Http\Controllers\CursoController::class, 'index']);
