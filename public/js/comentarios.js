@@ -12,10 +12,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const cursoId = form.querySelector('input[name="id_curso"]')?.value;
         const comentarioField = form.querySelector('textarea[name="comentario"]');
         const ratingField = form.querySelector('input[name="rating"]');
-        const mensaje = form.querySelector('.mensaje');
+        
+        // Buscar el mensaje en el modal-body más cercano
+        const modalBody = form.closest('.modal-body');
+        const mensaje = modalBody ? modalBody.querySelector('.mensaje') : null;
 
         if (!comentarioField || !ratingField || !mensaje) {
-            console.error("Campos del formulario no encontrados");
+            console.error("Campos del formulario no encontrados", {
+                comentarioField: !!comentarioField,
+                ratingField: !!ratingField,
+                mensaje: !!mensaje,
+                modalBody: !!modalBody
+            });
             return;
         }
 
@@ -28,13 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // VALIDACIONES BÁSICAS
         if (comentario === "" || rating === "") {
-            mensaje.textContent = "⚠ Todos los campos son obligatorios.";
+            mensaje.textContent = "Todos los campos son obligatorios.";
             mensaje.classList.add("error");
             return;
         }
 
         if (!cursoId) {
-            mensaje.textContent = "⚠ No se especificó el curso.";
+            mensaje.textContent = "No se especificó el curso.";
             mensaje.classList.add("error");
             return;
         }
@@ -42,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Obtener token JWT
         const token = localStorage.getItem("jwt_token");
         if (!token) {
-            mensaje.textContent = "⚠ Debes iniciar sesión para comentar.";
+            mensaje.textContent = "Debes iniciar sesión para comentar.";
             mensaje.classList.add("error");
             setTimeout(() => {
                 window.location.href = "/login";
@@ -73,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
 
             if (response.ok) {
-                mensaje.textContent = "✅ " + (data.mensaje || "Comentario enviado correctamente");
+                mensaje.textContent = (data.mensaje || "Comentario enviado correctamente");
                 mensaje.classList.add("ok");
                 
                 // Limpiar formulario

@@ -26,8 +26,7 @@
 
           <button type="submit" class="btn">Enviar</button>
         </form>
-
-        <p id="mensaje" class="mensaje mt-2"></p>
+        <p id="mensaje-{{ $cursoId ?? 'general' }}" class="mensaje mt-2"></p>
 
       </div>
 
