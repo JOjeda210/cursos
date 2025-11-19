@@ -38,9 +38,11 @@ Route::get('/registro', function () {
 Route::post('/comentarios', [ComentariosController::class, 'store'])
     ->name('comentarios.store');
 
-//  NUEVA RUTA: Cursos Privados (solo usuarios logueados)
-// Route::middleware(['auth'])->get('/cursos-privados', [PrivadosController::class, 'index'])
-// ->name('cursos.privados');
+// Catálogo Privado (requiere JWT en localStorage)
+Route::get('/catalogo-privado', function () {
+    return view('catalogo-private');
+})->name('catalogo.privado');
+
 // Endpoint comentarios fake:
 Route::post('/comentarios', [ComentariosController::class, 'store'])->name('comentarios.store');
 

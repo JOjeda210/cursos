@@ -16,6 +16,9 @@
         <div class="container">
             <h1>Mis Cursos</h1>
             <p>Accede a todos los cursos en los que estás inscrito</p>
+            <a href="{{ route('catalogo.privado') }}" class="btn btn-primary mt-3">
+                <i class="bi bi-plus-circle"></i> Explorar más cursos
+            </a>
         </div>
     </section>
 

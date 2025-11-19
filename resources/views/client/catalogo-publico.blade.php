@@ -96,39 +96,7 @@
             </div>
           </div>
         </div>
-
-        <!-- Curso 5 -->
-        <div class="col-md-4">
-          <div class="card promo-card h-100">
-            <img src="{{ asset('img/catalogo5.jpeg') }}" alt="Curso de Marketing Digital">
-            <div class="card-body text-center">
-              <h5>Marketing Digital</h5>
-              <p>Domina las estrategias para crecer en redes sociales y posicionamiento web.</p>
-              <button class="btn btn-inscribir mt-2" data-curso-id="5">Inscribirme</button>
-              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
-              Dejar Comentario
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Curso 6 -->
-        <div class="col-md-4">
-          <div class="card promo-card h-100">
-            <img src="{{ asset('img/catalogo6.jpeg') }}" alt="Curso de Excel Avanzado">
-            <div class="card-body text-center">
-              <h5>Excel Avanzado</h5>
-              <p>Aprende fórmulas, tablas dinámicas y automatiza tus tareas.</p>
-              <button class="btn btn-inscribir mt-2" data-curso-id="6">Inscribirme</button>
-              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
-                Dejar Comentario
-              </button>
-            </div>
-          </div>
-        </div>
-
       </div>
-
     </div>
   </section>
 
