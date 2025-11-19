@@ -49,6 +49,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{ asset('js/catalogo-private.js') }}"></script>
   <script src="{{ asset('js/inscribir.js') }}" defer></script>
+  <script src="{{ asset('js/comentarios.js') }}" defer></script>
 
   <!-- Modal de Comentarios Global -->
   <x-comentarios />
