@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\ComentariosController;
+use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\PrivadosController;
 
 
@@ -40,16 +41,14 @@ Route::get('/registro', function () {
 /////// ENDPOINTS PRIVADOS
 
 // Comentarios(Modal solo aparece con JWT en localstorage) - Flor
-Route::post('/comentarios', [ComentariosController::class, 'store'])
-    ->name('comentarios.store');
+Route::post('/comentarios', [ComentarioController::class, 'agregarComentario']) ->name('comentarios.store');
+   
 
 // Catálogo Privado (requiere JWT en localStorage)
 Route::get('/catalogo-privado', function () {
     return view('catalogo-private');
 })->name('catalogo.privado');
 
-// Endpoint comentarios fake:
-Route::post('/comentarios', [ComentariosController::class, 'store'])->name('comentarios.store');
 
 // Catálogo MIS CURSOS
 Route::get('/mis-cursos', function () {
