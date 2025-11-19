@@ -41,3 +41,5 @@ Route::middleware('jwt.auth')->group(function () {
     Route::post('/enroll', [CursoController::class, 'enroll']);
 });
 
+Route::post('/comentarios', [ComentarioController::class, 'agregarComentario']);
+Route::delete('/comentarios/{id_comentario}', [ComentarioController::class, 'eliminarComentario']);
