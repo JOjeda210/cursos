@@ -11,32 +11,27 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('jwt.auth');
 
-/// ENDPOINTS API REST AUTH
+/// ENDPOINTS AUTH
 
-
-// Endpoints de auth
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-/// ENDPOINTS DE OPERACION 
+/// ENDPOINTS DE OPERACION PARA USUARIO 
 
-// Endpoints de cursos
-Route::get('/cursos', [App\Http\Controllers\CursoController::class, 'index']);
-Route::get('/cursos/{id}', [App\Http\Controllers\CursoController::class, 'show']);
-
-// Endpoints de favoritos
-//Route::middleware('auth:sanctum') -> group(function () 
-//{
-    Route::post('/favoritos', [FavoritoController::class, 'agregarFavorito']);
-    Route::delete('/favoritos', [FavoritoController::class, 'eliminarFavorito']);
-//});
-
-// Endpoints de comentarios
-Route::post('/comentarios', [ComentarioController::class, 'crear']);
-Route::delete('/comentarios/{id_comentario}', [ComentarioController::class, 'eliminar']);
-// Endpoints de cursos públicos
+// Endpoints de cursos publicos
 Route::get('/cursos', [CursoController::class, 'index']);
 Route::get('/cursos/{id}', [CursoController::class, 'show']);
+
+/// ENDPOINTS DE OPERACION PARA USUARIO AUTENTICADO
+
+// Endpoints de favoritos
+Route::post('/favoritos', [FavoritoController::class, 'agregarFavorito']);
+Route::delete('/favoritos', [FavoritoController::class, 'eliminarFavorito']);
+
+// Endpoints de comentarios
+Route::post('/comentarios', [ComentarioController::class, 'agregarComentario']);
+Route::delete('/comentarios/{id_comentario}', [ComentarioController::class, 'eliminarComentario']);
+
 
 // Endpoints protegidos con JWT
 Route::middleware('jwt.auth')->group(function () {
@@ -45,5 +40,4 @@ Route::middleware('jwt.auth')->group(function () {
     Route::post('/enroll', [CursoController::class, 'enroll']);
 });
 
-Route::post('/comentarios', [ComentarioController::class, 'agregarComentario']);
-Route::delete('/comentarios/{id_comentario}', [ComentarioController::class, 'eliminarComentario']);
+
