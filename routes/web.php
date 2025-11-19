@@ -40,7 +40,7 @@ Route::post('/comentarios', [ComentariosController::class, 'store'])
 
 //  NUEVA RUTA: Cursos Privados (solo usuarios logueados)
 // Route::middleware(['auth'])->get('/cursos-privados', [PrivadosController::class, 'index'])
-//     ->name('cursos.privados');
+// ->name('cursos.privados');
 // Endpoint comentarios fake:
 Route::post('/comentarios', [ComentariosController::class, 'store'])->name('comentarios.store');
 
