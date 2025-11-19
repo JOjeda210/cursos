@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const pass = document.getElementById("contrasena").value;
 
     if (!correo || !pass) {
-      alert(" Por favor, completa todos los campos.");
+      alert("Por favor, completa todos los campos.");
       return;
     }
 
@@ -33,23 +33,24 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Respuesta del servidor:", result);
 
       if (response.ok) {
-        //  Login exitoso, guardar token
+        // Login exitoso, guardar token con el nombre correcto
         const token = result.token;
-        localStorage.setItem("auth_token", token);
+        localStorage.setItem("jwt_token", token);
 
         alert("✅ Inicio de sesión exitoso.");
-        console.log(" Token guardado:", token); // Eliminar 
+        console.log("Token guardado:", token);
 
-        // Redirigir al panel o inicio
-        window.location.href = "/catalogos";
-        //  Error en las credenciales o usuario
+        // Redirigir a mis cursos
+        window.location.href = "/mis-cursos";
+      } else {
+        // Error en las credenciales o usuario
         const mensaje = result.error || "Credenciales incorrectas.";
-        alert(` ${mensaje}`);
+        alert(`❌ ${mensaje}`);
       }
 
     } catch (error) {
-      console.error(" Error de conexión:", error);
-      alert(" No se pudo conectar con el servidor.");
+      console.error("Error de conexión:", error);
+      alert("⚠ No se pudo conectar con el servidor.");
     }
   });
 });

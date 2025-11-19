@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{{ asset('css/catalogo.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/comentarios.css') }}">
 </head>
 
 <body>  
@@ -19,7 +20,7 @@
 
   <section class="banner">
     <h1>Catálogo de Cursos</h1>
-    <p>Explora todos los cursos disponibles en </p>
+    <p>Explora todos los cursos disponibles en mis cursos </p>
   </section>
 
   <section class="promociones">
@@ -36,7 +37,11 @@
             <div class="card-body text-center">
               <h5>Programación en Python</h5>
               <p>Aprende a programar con uno de los lenguajes más populares del mundo.</p>
-              <button class="btn btn-miaula mt-2">Ver curso</button>
+              <button class="btn btn-inscribir mt-2" data-curso-id="1">Inscribirme</button>
+              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
+                Dejar Comentario
+              </button>
+
             </div>
           </div>
         </div>
@@ -48,7 +53,11 @@
             <div class="card-body text-center">
               <h5>Diseño UI/UX</h5>
               <p>Crea interfaces atractivas y centradas en la experiencia del usuario.</p>
-              <button class="btn btn-miaula mt-2">Ver curso</button>
+              <button class="btn btn-inscribir mt-2" data-curso-id="2">Inscribirme</button>
+              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
+                Dejar Comentario
+              </button>   
+              
             </div>
           </div>
         </div>
@@ -60,7 +69,10 @@
             <div class="card-body text-center">
               <h5>Bases de Datos con MySQL</h5>
               <p>Aprende a diseñar, consultar y administrar bases de datos.</p>
-              <button class="btn btn-miaula mt-2">Ver curso</button>
+              <button class="btn btn-inscribir mt-2" data-curso-id="3">Inscribirme</button>
+              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
+                Dejar Comentario
+              </button>
             </div>
           </div>
         </div>
@@ -76,37 +88,14 @@
             <div class="card-body text-center">
               <h5>JavaScript Moderno</h5>
               <p>Crea sitios web dinámicos e interactivos con JS moderno.</p>
-              <button class="btn btn-miaula mt-2">Ver curso</button>
+              <button class="btn btn-inscribir mt-2" data-curso-id="4">Inscribirme</button>
+              <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
+                Dejar Comentario
+              </button>
             </div>
           </div>
         </div>
-
-        <!-- Curso 5 -->
-        <div class="col-md-4">
-          <div class="card promo-card h-100">
-            <img src="{{ asset('img/catalogo5.jpeg') }}" alt="Curso de Marketing Digital">
-            <div class="card-body text-center">
-              <h5>Marketing Digital</h5>
-              <p>Domina las estrategias para crecer en redes sociales y posicionamiento web.</p>
-              <button class="btn btn-miaula mt-2">Ver curso</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Curso 6 -->
-        <div class="col-md-4">
-          <div class="card promo-card h-100">
-            <img src="{{ asset('img/catalogo6.jpeg') }}" alt="Curso de Excel Avanzado">
-            <div class="card-body text-center">
-              <h5>Excel Avanzado</h5>
-              <p>Aprende fórmulas, tablas dinámicas y automatiza tus tareas.</p>
-              <button class="btn btn-miaula mt-2">Ver curso</button>
-            </div>
-          </div>
-        </div>
-
       </div>
-
     </div>
   </section>
 
@@ -118,6 +107,10 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{ asset('js/script-catalogo.js') }}"></script>
+  <script src="{{ asset('js/inscribir.js') }}" defer></script>
+
+
+@include('components.comentarios')
 
 </body>
 </html>

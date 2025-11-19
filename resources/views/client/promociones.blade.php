@@ -22,6 +22,9 @@
     <div class="container">
       <h2>Promociones destacadas</h2>
       <p class="descripcion">Aprende desde cualquier lugar con precios reducidos por tiempo limitado</p>
+      <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario">
+          Dejar Comentario
+      </button>
 
       <div class="row g-4">
 
