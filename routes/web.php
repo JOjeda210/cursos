@@ -4,33 +4,40 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\ComentariosController;
+use App\Http\Controllers\PrivadosController;
 
+// Vista principal
 Route::get('/', function () {
     return view('about');
 });
-// heathchek de db:
+
+// healthcheck
 Route::get('/helth', [HealthController::class, 'check']);
 
-// Retrona vista de promociones - byFlor
+// Promociones - Flor
 Route::get('/promociones', function () {
     return view('promociones');
 })->name('promociones');
 
-// Retrona vista de catalogos - byEstefani
+// Catálogo público - Estefani
 Route::get('/catalogos', function () {
     return view('catalogos');
 })->name('catalogo');
 
-
-// Retrona vista de login -byEstefani
+// Login - Estefani
 Route::get('/login', function () {
     return view('login');
 });
 
-// Retrona vista de registro -byEstefani
+// Registro - Estefani
 Route::get('/registro', function () {
     return view('registro');
 })->name('registro');
 
-// añade esto abajo de tus otras rutas:
-Route::post('/comentarios', [ComentariosController::class, 'store'])->name('comentarios.store');
+// Comentarios - Flor
+Route::post('/comentarios', [ComentariosController::class, 'store'])
+    ->name('comentarios.store');
+
+//  NUEVA RUTA: Cursos Privados (solo usuarios logueados)
+Route::middleware(['auth'])->get('/cursos-privados', [PrivadosController::class, 'index'])
+    ->name('cursos.privados');
