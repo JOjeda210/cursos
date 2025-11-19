@@ -32,5 +32,5 @@ Route::get('/cursos/{id}', [App\Http\Controllers\CursoController::class, 'show']
 //});
 
 // Endpoints de comentarios
-Route::post('/comentarios', [ComentarioController::class, 'crear']);
-Route::delete('/comentarios/{id_comentario}', [ComentarioController::class, 'eliminar']);
+Route::post('/comentarios', [ComentarioController::class, 'agregarComentario']);
+Route::delete('/comentarios/{id_comentario}', [ComentarioController::class, 'eliminarComentario']);
