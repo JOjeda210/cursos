@@ -12,6 +12,7 @@
 </head>
 
 <body>  
+  @include('components.navbar')
 
   <section class="banner">
     <h1>¡Cursos en Promoción Limitada!</h1>

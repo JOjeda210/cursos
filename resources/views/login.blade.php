@@ -14,6 +14,7 @@
 </head>
 
 <body>
+  @include('components.navbar')
   <section class="banner">
     <h1>Inicio de Sesión</h1>
     <p>Accede a tu cuenta y continúa aprendiendo con Mi Aula</p>

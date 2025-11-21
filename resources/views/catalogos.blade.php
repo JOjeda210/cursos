@@ -17,6 +17,7 @@
 </head>
 
 <body>  
+@include('components.navbar')
 
 
   <section class="banner">

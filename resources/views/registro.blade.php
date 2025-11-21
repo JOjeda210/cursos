@@ -11,6 +11,8 @@
 </head>
 
 <body>
+  @include('components.navbar')
+
   <section class="banner">
     <h1>Registro de Usuario</h1>
     <p>Crea tu cuenta para acceder a todos los cursos</p>
