@@ -14,6 +14,7 @@ Route::get('/user', function (Request $request) {
 /// ENDPOINTS AUTH
 
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register-instructor', [AuthController::class, 'registerInstructor']);
 Route::post('/login', [AuthController::class, 'login']);
 
 /// ENDPOINTS DE OPERACION PARA USUARIO 

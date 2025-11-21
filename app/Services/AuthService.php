@@ -8,7 +8,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class AuthService
 {
-    public function register($data)
+    public function register($data, $id_rol)
     {
         $passwordHash = Hash::make($data['password']); 
         $userData =[
@@ -16,7 +16,7 @@ class AuthService
             'password' => $passwordHash, 
             'nombre' => $data['nombre'], 
             'apellido' => $data['apellido'], 
-            'id_rol' => 2, 
+            'id_rol' => $id_rol, 
             'activo' => true, 
             'fecha_registro' => now()
         ];
@@ -35,16 +35,18 @@ class AuthService
         if (!$user) throw new \Exception('Usuario no encontrado');
         if (!$user->activo) throw new \Exception('Usuario inactivo');
         Hash::check($password, $user->password) ?: throw new \Exception('Contraseña incorrecta');
-
         $jwtUser = new class($user->id_usuario) implements JWTSubject {
             private $id;
             public function __construct($id) { $this->id = $id; }
             public function getJWTIdentifier() { return $this->id; }
             public function getJWTCustomClaims() { return []; }
         };
-
         $token = JWTAuth::fromUser($jwtUser);
-        return $token; 
+       unset($user->password);
+       return [
+            'token' => $token,
+            'user' => $user // Esto incluye el id_rol
+        ];
         
     }
     
