@@ -14,6 +14,8 @@ Route::get('/user', function (Request $request) {
 /// ENDPOINTS AUTH
 
 Route::post('/register', [AuthController::class, 'register']);
+// Aqui se validará el registro para el instructor
+Route::post('/register-instructor', [AuthController::class, 'registerInstructor']);
 Route::post('/login', [AuthController::class, 'login']);
 
 /// ENDPOINTS DE OPERACION PARA USUARIO 
