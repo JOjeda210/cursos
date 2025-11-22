@@ -117,6 +117,24 @@ class CursoService
         DB::table('cursos')->where('id_curso', $idCourse)->update($update);
     }
 
+    public function removeCourse($idCourse,$idInstructor)
+    {
+         $course= DB::table('cursos')
+            ->where('id_curso', $idCourse)
+            ->where('id_instructor', $idInstructor)
+            ->first();
+        if(!$course)
+        {
+           throw new \Exception('No tienes permiso para editar este curso o no existe.'); 
+        }; 
+       DB::table('cursos')
+            ->where('id_curso', $idCourse)
+            ->update(['estado' => 'eliminado']);
+
+        return true;
+        
+    }
+
 
 
 }
