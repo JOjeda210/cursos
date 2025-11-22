@@ -1,8 +1,5 @@
-/* ---------------------------
-      FUENTES Y BASE
----------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&display=swap');
 body {
   font-family: 'Instrument Sans', sans-serif;
   margin: 0;
@@ -15,13 +12,13 @@ body {
   color: #ffffff;
 }
 
-/* ---------------------------
-      HERO / PORTADA
----------------------------- */
+
 .hero-about {
-  background: linear-gradient(rgba(94, 15, 166, 0.85), rgba(94, 15, 166, 0.85)),
+  background-color: #5E0FA6; 
+  background: 
+    linear-gradient(rgba(94, 15, 166, 0.85), rgba(94, 15, 166, 0.85)),
     url("https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1470&q=80")
-      no-repeat center center/cover;
+    no-repeat center center/cover;
   min-height: 40vh;
   color: #fff;
   display: flex;
@@ -33,6 +30,8 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
+
+
 .hero-about h1 {
   font-weight: 700;
   font-size: 2.8rem;
@@ -43,16 +42,14 @@ body {
   font-size: 1.1rem;
 }
 
-/* ---------------------------
-      CONTENIDO GENERAL
----------------------------- */
+
 .section-container {
   padding: 0;
 }
 
 .content-card {
   background-color: #ffffff;
-  color: #333;
+  color: #27003d;
   border-radius: 1.5rem;
   padding: 3rem;
   margin-top: 2rem;
@@ -63,7 +60,6 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Imagen de lado */
 .image-small-container {
   width: 180px;
   height: 180px;
@@ -79,17 +75,14 @@ body {
   object-fit: cover;
 }
 
-/* ---------------------------
-      TARJETAS DE VALORES
----------------------------- */
 .values-section-spacing {
   padding-top: 4rem;
   padding-bottom: 4rem;
 }
 
 .value-card {
-  background: linear-gradient(135deg, #4f046c, #A54A99);
-  color: #fff;
+  background: linear-gradient(135deg, #f5f3f6, #fefcfe);
+  color: #4b007c; 
   padding: 2rem;
   border-radius: 1rem;
   height: 100%;
@@ -103,18 +96,16 @@ body {
 }
 
 .value-card h4 {
-  color: #fff;
+  color: #34013d; 
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
 .value-card p {
-  color: #f3d9ff;
+  color: #1c0332; 
 }
 
-/* ---------------------------
-      BOTÓN PERSONALIZADO
----------------------------- */
+
 .btn-outline-custom {
   background: linear-gradient(135deg, #7b2ff7, #f107a3);
   color: white !important;
@@ -131,9 +122,7 @@ body {
   box-shadow: 0px 4px 12px rgba(162, 28, 175, 0.4);
 }
 
-/* ---------------------------
-      FOOTER
----------------------------- */
+
 footer {
   background-color: #ffffff;
   color: #5E0FA6;
