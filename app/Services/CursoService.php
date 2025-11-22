@@ -135,6 +135,17 @@ class CursoService
         
     }
 
+    public function getInstructorCourses($idInstructor)
+    {
+        $courses = DB::table('cursos')
+            ->select('id_curso,titulo','imagen_portada','descripcion','precio','estado')
+            ->where('id_instructor', $idInstructor)
+            ->where('estado', '!=', 'eliminado')
+            ->orderBy('fecha_creacion', 'desc')
+            ->get(); 
+        
+        return $courses; 
+    }
 
 
 }

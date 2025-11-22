@@ -8,6 +8,7 @@ use App\Services\AuthService;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Courses\EnrollRequest;
+use App\Http\Requests\Courses\StoreCourseRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class CursoController extends Controller
@@ -82,5 +83,33 @@ class CursoController extends Controller
             ], 500);
         }
     }
+
+    // Controller Admin
+    public function indexInstructor(Request $req)
+    {
+        try
+        {
+            $token = JWTAuth::getToken(); 
+            $user = $this->_authService->getUserFromToken($token); 
+            if($user->id_rol != 1)
+            {
+                return response()->json([
+                    'error' => 'No eres instructor.', 
+                ], 403);
+            }
+            $courses = $this->cursoService->getInstructorCourses($user->id_usuario);
+            return response()->json($courses, 200);
+
+            
+        }
+        catch(\Throwable $t)
+        {
+            return response()->json([
+                'error' => 'Ocurrió un error interno durante el obtenido de tus cursos.',
+                'message' => $t->getMessage() 
+            ], 500);
+        }
+    }
+    
 
 }
