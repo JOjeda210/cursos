@@ -110,6 +110,33 @@ class CursoController extends Controller
             ], 500);
         }
     }
+    public function storeInstructor(StoreCourseRequest $request)
+    {
+        try
+        {
+            $token = JWTAuth::getToken(); 
+            $user = $this->_authService->getUserFromToken($token); 
+            if($user->id_rol != 1)
+            {
+                return response()->json([
+                    'error' => 'No eres instructor.', 
+                ], 403);
+            }
+
+            $data = $request->validated(); 
+            $newCourse =  $this->cursoService->createCourse($data, $user->id_usuario);
+            return response()-> json($newCourse, 201); 
+        }
+        catch(\Throwable $t)
+        {
+            return response()->json([
+                'error' => 'Ocurrió un error interno durante la creación de tu curso.',
+                'message' => $t->getMessage() 
+            ], 500);
+        }       
+
+    }
+    
     
 
 }
