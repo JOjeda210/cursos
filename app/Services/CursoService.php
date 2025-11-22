@@ -70,6 +70,12 @@ class CursoService
           
     }
 
+    public function createCourse($data, $idInstructor)
+    {
+        $data = [
+            
+        ];
+    }
 
 
 
