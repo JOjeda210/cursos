@@ -72,9 +72,49 @@ class CursoService
 
     public function createCourse($data, $idInstructor)
     {
-        $data = [
-            
+        $imgPath = $data['imagen_portada']->store('cursos', 'public');
+        if($imgPath == null)
+        {
+            throw new \Exception('No se proporcionó la imagen al crear el curso');
+        }
+        $datCourse = [
+            'titulo' => $data['titulo'],
+            'descripcion' => $data['descripcion'],
+            'precio' => $data['precio'],
+            'imagen_portada' => $imgPath,      
+            'id_categoria' => $data['id_categoria'],
+            'id_instructor' => $idInstructor,  
+            'estado' => 'borrador',            
+            'fecha_creacion' => now()
+        ]; 
+        $id = DB::table('cursos')->insertGetId($datCourse);
+        return DB::table('cursos')->where('id_curso', $id)->first();
+    }
+
+    public function updateCourse($idCourse,$dataUp,$idInstructor)
+    {
+        $course= DB::table('cursos')
+            ->where('id_curso', $idCourse)
+            ->where('id_instructor', $idInstructor)
+            ->first();
+        if(!$course)
+        {
+           throw new \Exception('No tienes permiso para editar este curso o no existe.'); 
+        }; 
+        $update = [
+            'titulo' => $dataUp['titulo'],
+            'descripcion' => $dataUp['descripcion'],
+            'precio' => $dataUp['precio'],
+            'id_categoria' => $dataUp['id_categoria'],
+            'estado' => $dataUp['estado'],            
         ];
+        if(isset($dataUp['imagen_portada']))
+        {
+            $pathImgUp = $dataUp['imagen_portada']->store('cursos', 'public'); 
+            $update['imagen_portada'] = $pathImgUp;
+        }
+       
+        DB::table('cursos')->where('id_curso', $idCourse)->update($update);
     }
 
 
