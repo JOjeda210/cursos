@@ -21,7 +21,7 @@ class AuthController extends Controller
     {
         try
         {
-            $user = $this->authService->register($request->validated());
+            $user = $this->authService->register($request->validated(),2);
             return response()-> json($user, 201); 
         }
         catch (\Exception $e)
@@ -33,13 +33,31 @@ class AuthController extends Controller
         }
     }
 
+    public function registerInstructor(RegisterRequest $request)
+    {
+        try
+        {
+            $user = $this->authService->register($request->validated(),1);
+            return response()-> json($user, 201); 
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'error' => 'Ocurrió un error interno durante el registro.',
+                'message' => $e->getMessage() 
+            ], 500);
+        }
+    }
+
+
+
     public function login(LoginRequest $lRequest)
     {
         try
         {
             $credentials = $lRequest ->validated(); 
-            $token = $this->authService->login($credentials['email'], $credentials['password']); 
-            return response()->json(['token' => $token], 200);
+            $authResponse = $this->authService->login($credentials['email'], $credentials['password']);       
+            return response()->json($authResponse);
         }
         catch (\Exception $e)
         {

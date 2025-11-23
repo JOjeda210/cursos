@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // tomar token JWT desde localStorage
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("jwt_token");
     if (!token) {
       alert("Debes iniciar sesión para inscribirte.");
       window.location.href = "/login"; // o la ruta de login que uses
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.dataset.loading = "0";
       } else if (resp.status === 401) {
         alert("Tu sesión expiró. Inicia sesión de nuevo.");
-        localStorage.removeItem("token");
+        localStorage.removeItem("jwt_token");
         window.location.href = "/login";
       } else {
         const msg = data.message || JSON.stringify(data) || "Error inesperado";

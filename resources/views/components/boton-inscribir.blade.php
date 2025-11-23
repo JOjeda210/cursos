@@ -1,5 +1,7 @@
+@props(['cursoId'])
+
 <button 
-    class="btn btn-success btn-inscribir" 
-    data-curso-id="{{ $id }}">
+    class="btn btn-inscribir mt-2" 
+    data-curso-id="{{ $cursoId }}">
     Inscribirme
 </button>
