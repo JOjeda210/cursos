@@ -47,7 +47,6 @@ background: linear-gradient(
   margin-bottom: 3rem;
 }
 
-/* Tarje */
 .promo-card {
   border: none;
   border-radius: 25px;
@@ -85,7 +84,6 @@ background: linear-gradient(
   font-size: 1.25rem;
 }
 
-/* Bot */
 .btn-miaula {
   background: linear-gradient(135deg, #7b2ff7, #f107a3);
   border: none;

@@ -10,21 +10,7 @@
   <link rel="stylesheet" href="{{ asset('css/about.css') }}">
 </head>
 <body>
-
-  <nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top">
-    <div class="container">
-      <button class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a aria-current="page" class="nav-link active" href="sobre-nosotros.html">Sobre Nosotros</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+@include('components.navbar')
 
   <section class="hero-about d-flex align-items-center">
     <div class="container text-center">
