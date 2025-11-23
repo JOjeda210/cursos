@@ -8,6 +8,7 @@ use App\Services\AuthService;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Courses\EnrollRequest;
+use App\Http\Requests\Courses\UpdateCourseRequest;
 use App\Http\Requests\Courses\StoreCourseRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -125,6 +126,7 @@ class CursoController extends Controller
 
             $data = $request->validated(); 
             $newCourse =  $this->cursoService->createCourse($data, $user->id_usuario);
+
             return response()-> json($newCourse, 201); 
         }
         catch(\Throwable $t)
@@ -135,6 +137,39 @@ class CursoController extends Controller
             ], 500);
         }       
 
+    }
+
+    public function updateCourse(UpdateCourseRequest $req, $idCourse)
+    {
+        try
+        {
+            
+            $token = JWTAuth::getToken(); 
+            $user = $this->_authService->getUserFromToken($token); 
+            if($user->id_rol != 1)
+            {
+                return response()->json([
+                    'error' => 'No eres instructor.', 
+                ], 403);
+            }
+    
+            $data = $req->validated(); 
+            $this->cursoService->updateCourse($idCourse,$data,$user->id_usuario);
+            return response()-> json([
+                'message' => 'Curso actualizado correctamente',
+            ],200);
+        }
+        catch (\Exception $e) 
+        {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+        catch(\Throwable $t)
+        {
+            return response()->json([
+                'error' => 'Ocurrió un error interno durante la creación de tu curso.',
+                'message' => $t->getMessage() 
+            ], 500);
+        }
     }
     
     
