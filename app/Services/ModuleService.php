@@ -38,6 +38,27 @@ class ModuleService
         return $modules; 
     }
 
+    public function updateModule($idModulo, $data, $idInstructor)
+    {
+        $isInstructorInThisCourse = DB::table('modulos')
+            ->join('cursos', 'modulos.id_curso', '=', 'cursos.id_curso')
+            ->where('modulos.id_modulo', $idModulo)
+            ->where('cursos.id_instructor', $idInstructor)
+            ->select('modulos.id_modulo')
+            ->first();
+        if(!$isInstructorInThisCourse)
+        {
+            throw new \Exception("No tienes permiso para editar este módulo o no existe.");
+        }
+        $upModule = [
+            'titulo' => $data['titulo'],
+            'orden' => $data['orden'],
+        ];
+        $UpModuleResponde = DB::table('modulos')
+            ->where('id_modulo',$idModulo)
+            -> update($upModule); 
+        return $UpModuleResponde; 
+    }
 
 
 
