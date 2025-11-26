@@ -43,3 +43,8 @@ Route::middleware('jwt.auth')->group(function () {
 });
 
 
+// Rutas CRUD Admin - 
+Route::get('/instructor/cursos',[CursoController::class, 'indexCoursesInstructor']);
+Route::post('/instructor/cursos',[CursoController::class, 'storeCourseInstructor']);
+Route::put('/instructor/cursos/{id}',[CursoController::class, 'updateCourseInstructor']);
+Route::delete('/instructor/cursos/{id}',[CursoController::class, 'destroyCoursesInstructor']);

@@ -86,7 +86,7 @@ class CursoController extends Controller
     }
 
     // Controller Admin
-    public function indexInstructor(Request $req)
+    public function indexCoursesInstructor(Request $req)
     {
         try
         {
@@ -111,7 +111,7 @@ class CursoController extends Controller
             ], 500);
         }
     }
-    public function storeInstructor(StoreCourseRequest $request)
+    public function storeCourseInstructor(StoreCourseRequest $request)
     {
         try
         {
@@ -139,7 +139,7 @@ class CursoController extends Controller
 
     }
 
-    public function updateCourse(UpdateCourseRequest $req, $idCourse)
+    public function updateCourseInstructor(UpdateCourseRequest $req, $idCourse)
     {
         try
         {
@@ -172,7 +172,7 @@ class CursoController extends Controller
         }
     }
 
-    public function destroy($idCourse)
+    public function destroyCoursesInstructor($idCourse)
     {
         try
         {
