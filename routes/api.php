@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CursoController; 
 use App\Http\Controllers\FavoritoController; 
 use App\Http\Controllers\ComentarioController;
+use App\Http\Controllers\Api\ModuleController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -43,8 +44,14 @@ Route::middleware('jwt.auth')->group(function () {
 });
 
 
-// Rutas CRUD Admin - 
+// Rutas CRUD CURSOS Admin - 
 Route::get('/instructor/cursos',[CursoController::class, 'indexCoursesInstructor']);
 Route::post('/instructor/cursos',[CursoController::class, 'storeCourseInstructor']);
 Route::put('/instructor/cursos/{id}',[CursoController::class, 'updateCourseInstructor']);
 Route::delete('/instructor/cursos/{id}',[CursoController::class, 'destroyCoursesInstructor']);
+
+// Rutas CRUD MODULOS Admin - 
+Route::get('/instructor/modulos',[ModuleController::class,'indexModules']);
+Route::post('/instructor/modulos',[ModuleController::class,'storeModule']);
+Route::put('/instructor/modulos/{id}',[ModuleController::class,'updateModule']);
+Route::delete('/instructor/cursos/{id}',[ModuleController::class,'destroyModule']);
