@@ -17,6 +17,40 @@ class LessonController extends Controller
     protected $_lessonService;
     public function __construct(LessonService $lService, AuthService $authService ) 
     {
+        $this->_lessonService = $lService;
+        $this->_authService = $authService;
+    }
+
+    public function storeLesson(StoreLessonRequest $request)
+    {
+        $token = JWTAuth::getToken(); 
+            $user = $this->_authService->getUserFromToken($token); 
+            if($user->id_rol != 1)
+            {
+                return response()->json([
+                    'error' => 'No eres instructor.', 
+                ], 403);
+            }
+
+        $data = $request->validated(); 
+        try
+        {
+           $newLesson =  $this->_lessonService->createLesson($data, $user->id_usuario);
+            return response()-> json($newLesson, 201); 
+
+        }
+        catch(\Throwable $t)
+        {
+            return response()->json([
+                'error' => 'Ocurrió un error interno durante la creación de tu modulo.',
+                'message' => $t->getMessage() 
+            ], 500);
+        }       
+    }
+
+
+    public function indexLessons()
+    {
         
     }
 }
