@@ -49,8 +49,29 @@ class LessonController extends Controller
     }
 
 
-    public function indexLessons()
+    public function indexLessons($idModule)
     {
-        
+        try
+        {
+
+            $token = JWTAuth::getToken(); 
+            $user = $this->_authService->getUserFromToken($token); 
+            if($user->id_rol != 1)
+            {
+                return response()->json([
+                    'error' => 'No eres instructor.', 
+                ], 403);
+            }
+            return response()->json($this->_lessonService->getLessonsByModule($idModule), 200);        
+        }
+        catch(\Throwable $t)
+        {
+            return response()->json([
+                'error' => 'Ocurrió un error interno durante el obtenido de tus modulos en este curso.',
+                'message' => $t->getMessage() 
+            ], 500);
+        }
     }
+
+    
 }

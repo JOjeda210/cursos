@@ -43,29 +43,47 @@ class LessonService
 
     public function updateLesson($idLesson, $data, $idInstructor)
     {
+        // 1. Verificación de permisos (Igual que antes)
         $isInstructorInThisCourse = DB::table('lecciones')
             ->join('modulos', 'lecciones.id_modulo', '=', 'modulos.id_modulo')
             ->join('cursos', 'modulos.id_curso', '=','cursos.id_curso')
             ->where('lecciones.id_leccion', $idLesson)
-            ->where('cursos.id_instructor',$idInstructor)
+            ->where('cursos.id_instructor', $idInstructor)
             ->select('lecciones.id_leccion')
-            ->first(); 
+            ->first();
+
         if(!$isInstructorInThisCourse)
         {
-            throw new \Exception("No tienes permiso para editar este módulo o no existe.");
+            throw new \Exception("No tienes permiso para editar esta lección o no existe.");
         }
-        $update = [
-            'titulo' => $data['titulo'],
-            'contenido' => $data['contenido'] ?? null,    
-            'duracion' => $data['duracion'] ?? null,    
-            'orden' => $data['orden'],
-            'tipo' => $data['tipo'],
-        ]; 
 
-        DB::table('lecciones')->where('id_leccion', $idLesson)->update($update);
-        return true; 
+        $update = [];
+
+        if (isset($data['titulo'])) {
+            $update['titulo'] = $data['titulo'];
+        }
+        if (isset($data['orden'])) {
+            $update['orden'] = $data['orden'];
+        }
+        if (isset($data['tipo'])) {
+            $update['tipo'] = $data['tipo'];
+        }
+
+        if (array_key_exists('contenido', $data)) {
+            $update['contenido'] = $data['contenido'];
+        }
+        if (array_key_exists('duracion', $data)) {
+            $update['duracion'] = $data['duracion'];
+        }
+
+        if (!empty($update)) {
+            DB::table('lecciones')
+                ->where('id_leccion', $idLesson)
+                ->update($update);
+        }
+
+        return true;
     }
-
     public function deleteLesson($idLesson, $idInstructor)
     {
         $isInstructorOwner = DB::table('lecciones')
