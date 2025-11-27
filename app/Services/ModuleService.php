@@ -33,6 +33,7 @@ class ModuleService
             ->select('id_modulo','id_curso','titulo','orden')
             ->where('id_curso', $idCurso)
             ->orderBy('orden', 'asc')
+            ->whereNull('deleted_at')
             ->get(); 
         
         return $modules; 
@@ -40,6 +41,7 @@ class ModuleService
 
     public function updateModule($idModulo, $data, $idInstructor)
     {
+        // validacion para modulo - instructor
         $isInstructorInThisCourse = DB::table('modulos')
             ->join('cursos', 'modulos.id_curso', '=', 'cursos.id_curso')
             ->where('modulos.id_modulo', $idModulo)
@@ -58,6 +60,26 @@ class ModuleService
             ->where('id_modulo',$idModulo)
             -> update($upModule); 
         return $UpModuleResponde; 
+    }
+
+    public function deleteModule($idModulo,$idInstructor)
+    {
+         $isInstructorInThisCourse = DB::table('modulos')
+            ->join('cursos', 'modulos.id_curso', '=', 'cursos.id_curso')
+            ->where('modulos.id_modulo', $idModulo)
+            ->where('cursos.id_instructor', $idInstructor)
+            ->select('modulos.id_modulo')
+            ->first();
+        if(!$isInstructorInThisCourse)
+        {
+            throw new \Exception("No tienes permiso para eliminar este módulo o no existe.");
+        }
+         DB::table('modulos')
+            ->where('id_modulo', $idModulo)
+            ->update(['deleted_at' => now()]);
+
+        return true;
+
     }
 
 

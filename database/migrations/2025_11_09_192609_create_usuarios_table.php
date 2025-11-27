@@ -16,7 +16,7 @@ return new class extends Migration
             create table usuarios (
                 id_usuario int primary key auto_increment,
                 email varchar(75) unique not null,
-                contraseña varchar(75) not null,
+                password varchar(75) not null,
                 nombre varchar(100) not null,
                 apellido varchar(100) not null,
                 fecha_registro datetime default current_timestamp,
