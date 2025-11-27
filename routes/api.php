@@ -51,7 +51,7 @@ Route::put('/instructor/cursos/{id}',[CursoController::class, 'updateCourseInstr
 Route::delete('/instructor/cursos/{id}',[CursoController::class, 'destroyCoursesInstructor']);
 
 // Rutas CRUD MODULOS Admin - 
-Route::get('/instructor/modulos',[ModuleController::class,'indexModules']);
+Route::get('/instructor/modulos/{id}',[ModuleController::class,'indexModules']);
 Route::post('/instructor/modulos',[ModuleController::class,'storeModule']);
 Route::put('/instructor/modulos/{id}',[ModuleController::class,'updateModule']);
-Route::delete('/instructor/cursos/{id}',[ModuleController::class,'destroyModule']);
+Route::delete('/instructor/modulos/{id}',[ModuleController::class,'destroyModule']);

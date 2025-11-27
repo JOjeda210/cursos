@@ -11,9 +11,6 @@ use App\Services\ModuleService;
 use App\Services\AuthService;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
-
-use function Pest\Laravel\json;
-
 class ModuleController extends Controller
 {
     protected $_moduleService; 
@@ -37,8 +34,7 @@ class ModuleController extends Controller
                     'error' => 'No eres instructor.', 
                 ], 403);
             }
-            return response(json($this->_moduleService->getModulesByCourse($idCourse),200));
-        }
+            return response()->json($this->_moduleService->getModulesByCourse($idCourse), 200);        }
         catch(\Throwable $t)
         {
             return response()->json([
