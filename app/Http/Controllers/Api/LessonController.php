@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Requests\Lessons\StoreLessonRequest;
-use App\Http\Requests\Modules\UpdateModuleRequest;
+use App\Http\Requests\Lessons\UpdateLessonRequest;
 use App\Services\LessonService;
 use App\Services\AuthService;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -73,5 +73,34 @@ class LessonController extends Controller
         }
     }
 
-    
+    public function updateLessson(UpdateLessonRequest $request, $idLesson)
+    {
+        $token = JWTAuth::getToken(); 
+        $user = $this->_authService->getUserFromToken($token); 
+        if($user->id_rol != 1)
+        {
+            return response()->json([
+                'error' => 'No eres instructor.', 
+            ], 403);
+        }
+        $data = $request->validated();
+        try
+        {
+            $this->_lessonService->updateLesson($idLesson, $data, $user->id_usuario);
+            return response()-> json([
+                'message' => 'Curso actualizado correctamente',
+            ],200);
+        }
+        catch (\Exception $e) 
+        {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+        catch(\Throwable $t)
+        {
+            return response()->json([
+                'error' => 'Ocurrió un error interno durante la actualización de tu module.',
+                'message' => $t->getMessage() 
+            ], 500);
+        }
+    }
 }

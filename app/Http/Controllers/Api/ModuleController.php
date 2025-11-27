@@ -90,7 +90,7 @@ class ModuleController extends Controller
             ],200);
 
         }
-         catch (\Exception $e) 
+        catch (\Exception $e) 
         {
             return response()->json(['error' => $e->getMessage()], 422);
         }
