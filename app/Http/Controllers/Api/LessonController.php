@@ -73,7 +73,7 @@ class LessonController extends Controller
         }
     }
 
-    public function updateLessson(UpdateLessonRequest $request, $idLesson)
+    public function updateLesson(UpdateLessonRequest $request, $idLesson)
     {
         $token = JWTAuth::getToken(); 
         $user = $this->_authService->getUserFromToken($token); 
@@ -99,6 +99,44 @@ class LessonController extends Controller
         {
             return response()->json([
                 'error' => 'Ocurrió un error interno durante la actualización de tu module.',
+                'message' => $t->getMessage() 
+            ], 500);
+        }
+    }
+
+    public function destroyLesson($idLesson)
+    {
+        try
+        {
+            $token = JWTAuth::getToken(); 
+            $user = $this->_authService->getUserFromToken($token); 
+            if($user->id_rol != 1)
+            {
+                return response()->json([
+                    'error' => 'No eres instructor.', 
+                ], 403);
+            }
+            $this->_lessonService->deleteLesson($idLesson,$user->id_usuario);
+            return response()-> json([
+                'message' => 'Leccion eliminado correctamente',
+            ],200);
+
+        }
+        catch (JWTException $e) 
+        {
+            // Error Específico de Autenticación
+            return response()->json(['error' => 'No autorizado: ' . $e->getMessage()], 401);
+        }
+        catch (\Exception $e) 
+        {
+            // Error Específico de Negocio (ej. "Ya inscrito")
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+        catch (\Throwable $t) 
+        {
+            // Cualquier otro error fatal (código 500)
+            return response()->json([
+                'error' => 'Ocurrió un error fatal en el servidor.',
                 'message' => $t->getMessage() 
             ], 500);
         }

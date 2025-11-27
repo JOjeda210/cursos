@@ -7,6 +7,7 @@ use App\Http\Controllers\CursoController;
 use App\Http\Controllers\FavoritoController; 
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\Api\ModuleController;
+use App\Http\Controllers\Api\LessonController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -55,3 +56,9 @@ Route::get('/instructor/modulos/{id}',[ModuleController::class,'indexModules']);
 Route::post('/instructor/modulos',[ModuleController::class,'storeModule']);
 Route::put('/instructor/modulos/{id}',[ModuleController::class,'updateModule']);
 Route::delete('/instructor/modulos/{id}',[ModuleController::class,'destroyModule']);
+
+// Rutas CRUD LECCIONES Admin - 
+Route::get('/modulos/{id_modulo}/lecciones', [LessonController::class, 'indexLessons']);
+Route::post('/lecciones', [LessonController::class, 'storeLesson']);
+Route::put('/lecciones/{id}', [LessonController::class, 'updateLesson']);
+Route::delete('/lecciones/{id}', [LessonController::class, 'destroyLesson']);
