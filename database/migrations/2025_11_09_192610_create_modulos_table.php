@@ -19,6 +19,7 @@ return new class extends Migration
                 id_curso int not null,
                 titulo varchar(150) not null,
                 orden int not null,
+                deleted_at datetime null,
                 foreign key (id_curso) references cursos(id_curso)
             );
         ");

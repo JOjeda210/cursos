@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use App\Services\FavoritoService;
 
 class FavoritoController extends Controller
 {
     protected $favoritoService;
 
-    public function __contruct(FavoritoService $favoritoService)
+    public function __construct(FavoritoService $favoritoService)
     {
         $this -> favoritoService = $favoritoService;
     }
@@ -34,8 +35,12 @@ class FavoritoController extends Controller
         $usuarioID = Auth::user() -> id_usuario;
         $cursoID = $request -> input('id_curso');
 
-        $resultado = $this -> favoritoService -> agregar($usuarioID, $cursoID);
-        return response() -> json(['message' => $resltado['message']], $resultado['status']);
+        $resultado = $this -> favoritoService -> agregarFavorito($usuarioID, $cursoID);
+        return response() -> json(['message' => $resultado['message']], $resultado['status']);
+      }
+      catch(\Exception $e)
+      {
+        return response() -> json(['error' => 'Error al agregar favorito'], 500);
       }
     }
 
@@ -55,9 +60,13 @@ class FavoritoController extends Controller
             $usuarioID = Auth::user() -> id_usuario;
             $cursoID = $request -> input('id_curso');
 
-            $resultado = $this -> favoritoService -> eliminar($usuarioID, $cursoID);
+            $resultado = $this -> favoritoService -> eliminarFavorito($usuarioID, $cursoID);
             return response() -> json(['message' => $resultado['message']], $resultado['status']);
     
+        }
+        catch(\Exception $e)
+        {
+            return response() -> json(['error' => 'Error al eliminar favorito'], 500);
         }
     }
 }

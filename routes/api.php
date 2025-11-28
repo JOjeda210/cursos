@@ -6,6 +6,10 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CursoController; 
 use App\Http\Controllers\FavoritoController; 
 use App\Http\Controllers\ComentarioController;
+use App\Http\Controllers\Api\ModuleController;
+use App\Http\Controllers\Api\LessonController;
+use App\Http\Controllers\Api\ResourceController;
+use App\Http\Controllers\Api\PlayerController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -43,3 +47,31 @@ Route::middleware('jwt.auth')->group(function () {
 });
 
 
+// Rutas CRUD CURSOS Admin - 
+Route::get('/instructor/cursos',[CursoController::class, 'indexCoursesInstructor']);
+Route::post('/instructor/cursos',[CursoController::class, 'storeCourseInstructor']);
+Route::put('/instructor/cursos/{id}',[CursoController::class, 'updateCourseInstructor']);
+Route::delete('/instructor/cursos/{id}',[CursoController::class, 'destroyCoursesInstructor']);
+
+// Rutas CRUD MODULOS Admin - 
+Route::get('/instructor/modulos/{id}',[ModuleController::class,'indexModules']);
+Route::post('/instructor/modulos',[ModuleController::class,'storeModule']);
+Route::put('/instructor/modulos/{id}',[ModuleController::class,'updateModule']);
+Route::delete('/instructor/modulos/{id}',[ModuleController::class,'destroyModule']);
+
+// Rutas CRUD LECCIONES Admin - 
+Route::get('/modulos/{id_modulo}/lecciones', [LessonController::class, 'indexLessons']);
+Route::post('/lecciones', [LessonController::class, 'storeLesson']);
+Route::put('/lecciones/{id}', [LessonController::class, 'updateLesson']);
+Route::delete('/lecciones/{id}', [LessonController::class, 'destroyLesson']);
+
+
+// Rutas CRUD RECURSOS Admin - 
+Route::get('/leccions/{id}/recursos', [ResourceController::class, 'indexResource']);
+Route::post('/recursos', [ResourceController::class, 'storeResource']);
+Route::post('/recursos/{id}', [ResourceController::class, 'updateResource']); 
+Route::delete('/recursos/{id}', [ResourceController::class, 'destroyResource']);
+
+
+// Ruta para el usuario 
+Route::get('/player/curso/{id}', [PlayerController::class, 'getCourseContent']);
