@@ -8,6 +8,7 @@ use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\Api\ModuleController;
 use App\Http\Controllers\Api\LessonController;
+use App\Http\Controllers\Api\ResourceController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -62,3 +63,10 @@ Route::get('/modulos/{id_modulo}/lecciones', [LessonController::class, 'indexLes
 Route::post('/lecciones', [LessonController::class, 'storeLesson']);
 Route::put('/lecciones/{id}', [LessonController::class, 'updateLesson']);
 Route::delete('/lecciones/{id}', [LessonController::class, 'destroyLesson']);
+
+
+// Rutas CRUD RECURSOS Admin - 
+Route::get('/leccions/{id}/recursos', [ResourceController::class, 'indexResource']);
+Route::post('/recursos', [ResourceController::class, 'storeResource']);
+Route::post('/recursos/{id}', [ResourceController::class, 'updateResource']); 
+Route::delete('/recursos/{id}', [ResourceController::class, 'destroyResource']);
