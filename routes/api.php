@@ -60,7 +60,7 @@ Route::put('/instructor/modulos/{id}',[ModuleController::class,'updateModule']);
 Route::delete('/instructor/modulos/{id}',[ModuleController::class,'destroyModule']);
 
 // Rutas CRUD LECCIONES Admin - 
-Route::get('/modulos/{id_modulo}/lecciones', [LessonController::class, 'indexLessons']);
+Route::get('/modulos/{id}/lecciones', [LessonController::class, 'indexLessons']);
 Route::post('/lecciones', [LessonController::class, 'storeLesson']);
 Route::put('/lecciones/{id}', [LessonController::class, 'updateLesson']);
 Route::delete('/lecciones/{id}', [LessonController::class, 'destroyLesson']);
