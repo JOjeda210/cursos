@@ -9,6 +9,7 @@ use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\Api\ModuleController;
 use App\Http\Controllers\Api\LessonController;
 use App\Http\Controllers\Api\ResourceController;
+use App\Http\Controllers\Api\PlayerController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -70,3 +71,7 @@ Route::get('/leccions/{id}/recursos', [ResourceController::class, 'indexResource
 Route::post('/recursos', [ResourceController::class, 'storeResource']);
 Route::post('/recursos/{id}', [ResourceController::class, 'updateResource']); 
 Route::delete('/recursos/{id}', [ResourceController::class, 'destroyResource']);
+
+
+// Ruta para el usuario 
+Route::get('/player/curso/{id}', [PlayerController::class, 'getCourseContent']);
