@@ -50,7 +50,6 @@ Route::get('/catalogo-privado', function () {
 })->name('catalogo.privado');
 
 
-// Catálogo MIS CURSOS
-Route::get('/mis-cursos', function () {
-    return view('mis-cursos');
-})->name('misCursos');
+Route::get('/lecciones', function() {
+    return view('lecciones'); // sin "components."
+});
