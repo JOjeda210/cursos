@@ -50,6 +50,11 @@ Route::get('/catalogo-privado', function () {
 })->name('catalogo.privado');
 
 
-Route::get('/lecciones', function() {
-    return view('lecciones'); // sin "components."
-});
+// Catálogo MIS CURSOS
+Route::get('/mis-cursos', function () {
+    return view('mis-cursos');
+})->name('misCursos');
+// lecciones instreuctor
+Route::get('/lecciones', function () {
+    return view('lecciones');
+})->name('lecciones')->middleware('jwt.auth');
