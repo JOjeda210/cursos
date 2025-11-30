@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\HealthController;
+use App\Http\Controllers\InstructorController;
 
 Route::get('/', function () {
     return view('about');
