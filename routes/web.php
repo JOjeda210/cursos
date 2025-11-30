@@ -6,6 +6,7 @@ use App\Http\Controllers\HealthController;
 use App\Http\Controllers\ComentariosController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\PrivadosController;
+use App\Http\Controllers\InstructorController;
 
 
 /////// ENDPOINTS PUBLICOS
