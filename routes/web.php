@@ -31,3 +31,7 @@ Route::get('/login', function () {
 Route::get('/registro', function () {
     return view('registro');
 })->name('registro');
+
+Route::get('/panel_cursos', function () {
+    return view('panel_cursos');
+});

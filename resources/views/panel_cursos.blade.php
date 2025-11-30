@@ -2,133 +2,88 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Cursos - Instructor</title>
-
-    <link 
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
-        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestión de Cursos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --gradiente: linear-gradient(135deg, #7e22ce 0%, #db2777 100%); }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; }
+        .banner { background: var(--gradiente); color: white; padding: 3rem 0; text-align: center; margin-bottom: 2rem; }
+        .promo-card { border: none; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); background: white; transition: transform 0.2s; }
+        .promo-card:hover { transform: translateY(-5px); }
+        .btn-miaula { background: var(--gradiente); color: white; border: none; border-radius: 50px; font-weight: 600; padding: 8px 24px; }
+        .badge-pos { position: absolute; top: 10px; right: 10px; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; }
+        .bg-publicado { background-color: #d1e7dd; color: #0f5132; }
+        .bg-borrador { background-color: #fff3cd; color: #856404; }
+    </style>
 </head>
+<body>
 
-<body class="bg-light">
-
-<div class="container py-5">
-    <h1 class="mb-4 text-center">Gestión de Cursos</h1>
-
-    <!-- FORMULARIO -->
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body">
-            <h5 class="card-title">Registrar / Actualizar Curso</h5>
-
-            <form id="cursoForm">
-                <input type="hidden" id="cursoId">
-
-                <div class="mb-3">
-                    <label class="form-label">Nombre del Curso</label>
-                    <input type="text" id="nombre" class="form-control" required>
-                </div>
-
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary flex-grow-1">Guardar</button>
-                    <button type="button" id="btnCancelar" class="btn btn-secondary">Cancelar</button>
-                </div>
-            </form>
+    <section class="banner">
+        <div class="container">
+            <h1>Gestión de Cursos</h1>
+            <button onclick="limpiarFormulario()" class="btn btn-light text-primary fw-bold mt-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#modalCurso">
+                <i class="bi bi-plus-lg"></i> Nuevo Curso
+            </button>
         </div>
+    </section>
+
+    <div class="container pb-5">
+        <div id="listaCursos" class="row g-4">
+            </div>
     </div>
 
-    <!-- TABLA -->
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h5 class="card-title">Listado de Cursos</h5>
+    <div class="modal fade" id="modalCurso" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="modalTitulo">Curso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="cursoForm">
+                        <input type="hidden" id="cursoId">
+                        
+                        <div class="mb-3">
+                            <label class="fw-bold form-label">Título</label>
+                            <input type="text" id="titulo" class="form-control bg-light" required>
+                        </div>
 
-            <table class="table table-striped mt-3">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Curso</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="fw-bold form-label">Precio</label>
+                                <input type="number" id="precio" step="0.01" class="form-control bg-light" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="fw-bold form-label">Categoría</label>
+                                <select id="categoria" class="form-select bg-light">
+                                    <option value="1">Tecnología</option>
+                                    <option value="2">Diseño</option>
+                                    <option value="3">Marketing</option>
+                                </select>
+                            </div>
+                        </div>
 
-                <tbody id="tablaCursos"></tbody>
-            </table>
+                        <div class="mb-3">
+                            <label class="fw-bold form-label">Descripción</label>
+                            <textarea id="descripcion" class="form-control bg-light" rows="3"></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-miaula">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/instructor_logic.js') }}"></script>
 
-<script>
-    const API_URL = "http://localhost:8000/api/cursos";
-
-    document.addEventListener("DOMContentLoaded", cargarCursos);
-    const form = document.getElementById("cursoForm");
-
-    // GET — Cargar cursos
-    async function cargarCursos() {
-        const res = await fetch(API_URL);
-        const datos = await res.json();
-
-        const tabla = document.getElementById("tablaCursos");
-        tabla.innerHTML = "";
-
-        datos.forEach(curso => {
-            tabla.innerHTML += `
-                <tr>
-                    <td>${curso.id}</td>
-                    <td>${curso.nombre}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" onclick="editarCurso(${curso.id}, '${curso.nombre}')">Editar</button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarCurso(${curso.id})">Eliminar</button>
-                    </td>
-                </tr>
-            `;
-        });
-    }
-
-    // POST & PUT — Guardar o actualizar
-    form.addEventListener("submit", async e => {
-        e.preventDefault();
-
-        const id = document.getElementById("cursoId").value;
-        const nombre = document.getElementById("nombre").value;
-
-        const payload = { nombre };
-
-        let endpoint = API_URL;
-        let metodo = "POST";
-
-        if (id) {
-            endpoint = `${API_URL}/${id}`;
-            metodo = "PUT";
-        }
-
-        await fetch(endpoint, {
-            method: metodo,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        });
-
-        form.reset();
-        cargarCursos();
-    });
-
-    // Cargar valores en el formulario
-    function editarCurso(id, nombre) {
-        document.getElementById("cursoId").value = id;
-        document.getElementById("nombre").value = nombre;
-    }
-
-    // DELETE — Eliminar
-    async function eliminarCurso(id) {
-        await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-        cargarCursos();
-    }
-
-    // Botón cancelar
-    document.getElementById("btnCancelar").addEventListener("click", () => {
-        form.reset();
-        document.getElementById("cursoId").value = "";
-    });
-
-</script>
 </body>
 </html>
