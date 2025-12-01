@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\ProgresoService;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class LeccionController extends Controller
 {
@@ -121,8 +122,8 @@ class LeccionController extends Controller
             return response()->json($leccion, 200);
 
         } catch (\Exception $e) {
-            \Log::error('Error en obtenerDatosLeccion: ' . $e->getMessage());
-            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            Log::error('Error en obtenerDatosLeccion: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
             
             return response()->json([
                 'error' => 'Error al cargar la lección',
