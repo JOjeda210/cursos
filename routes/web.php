@@ -7,6 +7,7 @@ use App\Http\Controllers\ComentariosController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\PrivadosController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\CursoController;
 
 
 /////// ENDPOINTS PUBLICOS
@@ -38,6 +39,11 @@ Route::get('/registro', function () {
     return view('client.registro');
 })->name('registro');
 
+// Registro Instructor
+Route::get('/registro-instructor', function () {
+    return view('client.registro-instructor');
+})->name('registro.instructor');
+
 
 /////// ENDPOINTS PRIVADOS
 
@@ -54,8 +60,34 @@ Route::get('/catalogo-privado', function () {
 // Catálogo MIS CURSOS
 Route::get('/mis-cursos', function () {
     return view('mis-cursos');
-})->name('misCursos');
-// lecciones instreuctor
-Route::get('/lecciones', function () {
+})->name('misCursos')->middleware('web.jwt');
+
+// Panel Instructor (Cursos)
+Route::get('/panel-instructor', function () {
+    return view('panel_cursos');
+})->name('panel.instructor')->middleware('web.jwt');
+
+// Crear Módulo
+Route::get('/panel-instructor/modulos', function () {
+    return view('panel_modulos');
+})->name('panel.modulos')->middleware('web.jwt');
+
+// Lecciones y Recursos
+Route::get('/panel-instructor/lecciones', function () {
     return view('lecciones');
-})->name('lecciones')->middleware('jwt.auth');
+})->name('panel.lecciones')->middleware('web.jwt');
+
+// Ver Curso (Instructor)
+Route::get('/panel-instructor/cursos/{id}', [CursoController::class, 'verCurso'])
+    ->name('curso.ver')
+    ->middleware('web.jwt');
+
+// Gestión de Recursos
+Route::get('/panel-instructor/recursos', function () {
+    return view('panel_recursos');
+})->name('panel.recursos')->middleware('web.jwt');
+
+// Ver Curso (Estudiante)
+Route::get('/mis-cursos/{id}', [CursoController::class, 'verCursoEstudiante'])
+    ->name('curso.estudiante')
+    ->middleware('web.jwt');

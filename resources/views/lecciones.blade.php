@@ -9,6 +9,9 @@
 </head>
 <body>
 
+    @include('components.navbar')
+    @include('components.instructor-nav')
+
 <div class="layout-wrapper">
 
     <header class="page-header">
@@ -106,6 +109,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('js/navbar.js') }}"></script>
 <script src="/js/lecciones.js"></script>
 </body>
 </html>

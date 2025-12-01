@@ -18,16 +18,52 @@
         .badge-pos { position: absolute; top: 10px; right: 10px; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; }
         .bg-publicado { background-color: #d1e7dd; color: #0f5132; }
         .bg-borrador { background-color: #fff3cd; color: #856404; }
+        
+        /* Estilos para input file */
+        #imagenPortada:hover {
+            border-color: #7e22ce !important;
+            box-shadow: 0 0 0 0.2rem rgba(126, 34, 206, 0.15) !important;
+        }
+        #imagenPortada:focus {
+            outline: none;
+            border-color: #7e22ce !important;
+            box-shadow: 0 0 0 0.25rem rgba(126, 34, 206, 0.25) !important;
+        }
+        #imagenPortada::file-selector-button {
+            background: var(--gradiente);
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            padding: 0.5rem 1rem;
+            margin-right: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        #imagenPortada::file-selector-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(126, 34, 206, 0.2);
+        }
     </style>
 </head>
 <body>
 
+    @include('components.navbar')
+
     <section class="banner">
         <div class="container">
-            <h1>Gestión de Cursos</h1>
-            <button onclick="limpiarFormulario()" class="btn btn-light text-primary fw-bold mt-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#modalCurso">
-                <i class="bi bi-plus-lg"></i> Nuevo Curso
-            </button>
+            <h1>Panel Instructor</h1>
+            <div class="d-flex gap-2 justify-content-center mt-3">
+                <button onclick="limpiarFormulario()" class="btn btn-light text-primary fw-bold rounded-pill" data-bs-toggle="modal" data-bs-target="#modalCurso">
+                    <i class="bi bi-plus-lg"></i> Nuevo Curso
+                </button>
+                <a href="/panel-instructor/modulos" class="btn btn-outline-light fw-bold rounded-pill">
+                    <i class="bi bi-folder"></i> Gestionar Módulos
+                </a>
+                <a href="/panel-instructor/lecciones" class="btn btn-outline-light fw-bold rounded-pill">
+                    <i class="bi bi-book"></i> Gestionar Lecciones
+                </a>
+            </div>
         </div>
     </section>
 
@@ -59,11 +95,38 @@
                             </div>
                             <div class="col-6">
                                 <label class="fw-bold form-label">Categoría</label>
-                                <select id="categoria" class="form-select bg-light">
-                                    <option value="1">Tecnología</option>
-                                    <option value="2">Diseño</option>
-                                    <option value="3">Marketing</option>
+                                <select id="categoria" class="form-select bg-light" required>
+                                    <option value="">Selecciona una categoría</option>
+                                    <!-- Categorías se cargan dinámicamente -->
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold form-label">Estado</label>
+                            <select id="estado" class="form-select bg-light">
+                                <option value="borrador">Borrador</option>
+                                <option value="publicado">Publicado</option>
+                                <option value="oculto">Oculto</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold form-label">
+                                <i class="bi bi-image"></i> Imagen de Portada
+                            </label>
+                            <div class="position-relative">
+                                <input type="file" id="imagenPortada" class="form-control bg-light" 
+                                       accept="image/jpeg,image/jpg,image/png,image/svg+xml" 
+                                       style="padding: 0.75rem; border: 2px solid #e9ecef; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s;">
+                                <small class="form-text text-muted">
+                                    <i class="bi bi-info-circle"></i> 
+                                    Formatos: JPG, PNG, SVG. Tamaño máximo: 2MB
+                                </small>
+                            </div>
+                            <div id="imagenPreview" class="mt-2" style="display: none;">
+                                <img id="imagenPreviewImg" src="" alt="Vista previa" 
+                                     style="max-width: 150px; max-height: 100px; border-radius: 8px; border: 1px solid #dee2e6;">
                             </div>
                         </div>
 
@@ -83,6 +146,7 @@
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/navbar.js') }}"></script>
     <script src="{{ asset('js/instructor_logic.js') }}"></script>
 
 </body>

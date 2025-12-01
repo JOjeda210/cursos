@@ -6,13 +6,44 @@ use Illuminate\Support\Facades\DB;
 class CursoService
 {
     
-    public function obtenerCursos()
+    public function obtenerCursos($userId = null)
     {
-        $sql = "SELECT id_curso, titulo, descripcion, precio, estado
-                FROM cursos
-                WHERE estado = 'publicado'
-                ORDER BY fecha_creacion DESC";
-        return DB::select($sql);
+        if ($userId) {
+            // Si hay userId, incluir información de inscripción
+            $sql = "SELECT 
+                        c.id_curso, 
+                        c.titulo, 
+                        c.descripcion, 
+                        c.precio, 
+                        c.estado,
+                        c.imagen_portada,
+                        cat.nombre_categoria,
+                        CASE 
+                            WHEN i.id_inscripcion IS NOT NULL THEN 1 
+                            ELSE 0 
+                        END as esta_inscrito
+                    FROM cursos c
+                    LEFT JOIN categorias cat ON c.id_categoria = cat.id_categoria
+                    LEFT JOIN inscripciones i ON c.id_curso = i.id_curso AND i.id_usuario = ?
+                    WHERE c.estado = 'publicado'
+                    ORDER BY c.fecha_creacion DESC";
+            return DB::select($sql, [$userId]);
+        } else {
+            // Si no hay userId, solo obtener cursos básicos
+            $sql = "SELECT 
+                        c.id_curso, 
+                        c.titulo, 
+                        c.descripcion, 
+                        c.precio, 
+                        c.estado,
+                        c.imagen_portada,
+                        cat.nombre_categoria
+                    FROM cursos c
+                    LEFT JOIN categorias cat ON c.id_categoria = cat.id_categoria
+                    WHERE c.estado = 'publicado'
+                    ORDER BY c.fecha_creacion DESC";
+            return DB::select($sql);
+        }
     }
 
     public function obtenerCursoPorId($id)
@@ -72,15 +103,23 @@ class CursoService
 
     public function createCourse($data, $idInstructor)
     {
-        $imgPath = $data['imagen_portada']->store('cursos', 'public');
-        if($imgPath == null)
+        $imgPath = null;
+        
+        // Solo procesar imagen si se proporciona
+        if(isset($data['imagen_portada']) && $data['imagen_portada'] !== null)
         {
-            throw new \Exception('No se proporcionó la imagen al crear el curso');
+            $imgPath = $data['imagen_portada']->store('cursos', 'public');
         }
+        
+        // Asegurar que el precio sea un número válido
+        $precio = isset($data['precio']) && $data['precio'] !== null && $data['precio'] !== '' 
+                  ? (float) $data['precio'] 
+                  : 0.00;
+        
         $datCourse = [
             'titulo' => $data['titulo'],
             'descripcion' => $data['descripcion'],
-            'precio' => $data['precio'],
+            'precio' => $precio,
             'imagen_portada' => $imgPath,      
             'id_categoria' => $data['id_categoria'],
             'id_instructor' => $idInstructor,  
@@ -145,6 +184,55 @@ class CursoService
             ->get(); 
         
         return $courses; 
+    }
+
+    public function publishCourse($idCourse, $idInstructor)
+    {
+        // Verificar que el curso pertenece al instructor
+        $course = DB::table('cursos')
+            ->where('id_curso', $idCourse)
+            ->where('id_instructor', $idInstructor)
+            ->first();
+
+        if (!$course) {
+            throw new \Exception('No tienes permiso para publicar este curso o no existe.');
+        }
+
+        if ($course->estado === 'publicado') {
+            throw new \Exception('El curso ya está publicado.');
+        }
+
+        // Verificar que el curso tiene al menos un módulo
+        $modulosCount = DB::table('modulos')
+            ->where('id_curso', $idCourse)
+            ->whereNull('deleted_at')
+            ->count();
+
+        if ($modulosCount === 0) {
+            throw new \Exception('El curso debe tener al menos un módulo para poder ser publicado.');
+        }
+
+        // Verificar que el curso tiene al menos una lección
+        $leccionesCount = DB::table('lecciones')
+            ->join('modulos', 'lecciones.id_modulo', '=', 'modulos.id_modulo')
+            ->where('modulos.id_curso', $idCourse)
+            ->whereNull('lecciones.deleted_at')
+            ->whereNull('modulos.deleted_at')
+            ->count();
+
+        if ($leccionesCount === 0) {
+            throw new \Exception('El curso debe tener al menos una lección para poder ser publicado.');
+        }
+
+        // Publicar el curso
+        DB::table('cursos')
+            ->where('id_curso', $idCourse)
+            ->update([
+                'estado' => 'publicado',
+                'fecha_publicacion' => now()
+            ]);
+
+        return true;
     }
 
 

@@ -24,8 +24,8 @@ class StoreCourseRequest extends FormRequest
         return [
             'titulo' => 'required|string|max:150',
             'descripcion' => 'required|string',
-            'precio' => 'numeric|min:0', // Validar si el precio es 0.00 al publicar = curso gratuito
-            'imagen_portada' => 'image|mimes:jpg,png,svg|max:2048', 
+            'precio' => 'nullable|numeric|min:0', // Validar si el precio es 0.00 al publicar = curso gratuito
+            'imagen_portada' => 'nullable|image|mimes:jpg,png,svg|max:2048', 
             'id_categoria' => 'required|exists:categorias,id_categoria', 
         ];
     }

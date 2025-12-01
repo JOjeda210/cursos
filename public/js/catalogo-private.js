@@ -63,8 +63,17 @@ function cargarCursosPrivados() {
         // Generar las tarjetas de cursos
         const cursosHTML = data.map(curso => {
             const imagenUrl = curso.imagen_portada 
-                ? `http://plataforma-cursos-appsweb.test/${curso.imagen_portada}` 
+                ? `http://plataforma-cursos-appsweb.test/storage/${curso.imagen_portada}` 
                 : 'https://via.placeholder.com/400x200?text=Sin+Imagen';
+
+            // Determinar el botón de inscripción
+            const botonInscripcion = curso.esta_inscrito === 1 
+                ? `<button class="btn btn-success" disabled>
+                        <i class="fas fa-check"></i> Inscrito
+                   </button>`
+                : `<button class="btn btn-inscribir mt-2" data-curso-id="${curso.id_curso}">
+                        Inscribirme
+                   </button>`;
 
             return `
                 <div class="col-md-4">
@@ -73,12 +82,12 @@ function cargarCursosPrivados() {
                         <div class="card-body text-center">
                             <h5>${curso.titulo}</h5>
                             <p>${curso.descripcion || 'Sin descripción disponible'}</p>
-                            <p class="precio fw-bold">$${parseFloat(curso.precio).toFixed(2)}</p>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <p class="precio fw-bold mb-0">$${parseFloat(curso.precio).toFixed(2)}</p>
+                                <small class="text-muted">${curso.nombre_categoria || 'Sin categoría'}</small>
+                            </div>
                             
-                            <!-- Botón de inscripción -->
-                            <button class="btn btn-inscribir mt-2" data-curso-id="${curso.id_curso}">
-                                Inscribirme
-                            </button>
+                            ${botonInscripcion}
                             
                             <!-- Botón de comentario -->
                             <button class="btn btn-comentario" data-bs-toggle="modal" data-bs-target="#modalComentario-${curso.id_curso}">

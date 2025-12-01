@@ -4,6 +4,9 @@
         <!-- LOGO -->
         <a href="/" class="logo">MiPlataforma</a>
 
+        <!-- MENSAJE DE BIENVENIDA -->
+        <div class="welcome-message hidden" id="welcome-message" style="color: white; font-weight: 500; margin-left: 20px;"></div>
+
         <!-- LINKS CUANDO NO ESTÁ LOGUEADO -->
         <ul class="nav-links" id="public-links">
             <li><a href="/">Sobre nosotros</a></li>

@@ -11,6 +11,7 @@ use App\Http\Requests\Courses\EnrollRequest;
 use App\Http\Requests\Courses\UpdateCourseRequest;
 use App\Http\Requests\Courses\StoreCourseRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\DB;
 
 class CursoController extends Controller
 {
@@ -23,8 +24,24 @@ class CursoController extends Controller
 
     public function index()
     {
-        $cursos = $this -> cursoService -> obtenerCursos();
-        return response() -> json($cursos);
+        // Verificar si hay token JWT para usuario autenticado
+        try {
+            $token = request()->bearerToken();
+            if ($token) {
+                $user = JWTAuth::setToken($token)->toUser();
+                if ($user) {
+                    // Usuario autenticado - incluir información de inscripción
+                    $cursos = $this->cursoService->obtenerCursos($user->id_usuario);
+                    return response()->json($cursos);
+                }
+            }
+        } catch (\Exception $e) {
+            // Si falla la autenticación, continúa sin userId
+        }
+        
+        // Usuario no autenticado - solo cursos básicos
+        $cursos = $this->cursoService->obtenerCursos();
+        return response()->json($cursos);
     }
 
     public function show($id)
@@ -42,12 +59,19 @@ class CursoController extends Controller
             $courses = $this->cursoService->getMyCourses($user->id_usuario);
             return response()->json($courses, 200);
         }
+        catch (JWTException $e)
+        {
+            return response()->json([
+                'error' => 'No autorizado: Token inválido.',
+                'message' => $e->getMessage() 
+            ], 401);
+        }
         catch (\Throwable $t)
         {
             return response()->json([
                 'error' => 'Ocurrió un error interno durante el obtenido de tus cursos.',
                 'message' => $t->getMessage() 
-            ], 401);
+            ], 500);
         }
     }
 
@@ -208,7 +232,213 @@ class CursoController extends Controller
             ], 500);
         }
     }
-    
+
+    public function publishCourse($idCourse)
+    {
+        try
+        {
+            $token = JWTAuth::getToken(); 
+            $user = $this->_authService->getUserFromToken($token); 
+            
+            if($user->id_rol != 1)
+            {
+                return response()->json([
+                    'error' => 'No eres instructor.', 
+                ], 403);
+            }
+
+            $this->cursoService->publishCourse($idCourse, $user->id_usuario);
+            
+            return response()->json([
+                'message' => 'Curso publicado correctamente',
+                'success' => true
+            ], 200);
+        }
+        catch (JWTException $e) 
+        {
+            return response()->json(['error' => 'No autorizado: ' . $e->getMessage()], 401);
+        }
+        catch (\Exception $e) 
+        {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+        catch (\Throwable $t) 
+        {
+            return response()->json([
+                'error' => 'Ocurrió un error interno durante la publicación del curso.',
+                'message' => $t->getMessage() 
+            ], 500);
+        }
+    }
+
+    public function verCurso($id)
+    {
+        try {
+            // Verificar autenticación JWT
+            $user = JWTAuth::parseToken()->authenticate();
+            
+            if (!$user || $user->rol !== 'instructor') {
+                return redirect('/login')->with('error', 'No autorizado');
+            }
+
+            // Buscar el curso usando DB facade
+            $curso = DB::table('cursos as c')
+                ->leftJoin('categorias as cat', 'c.id_categoria', '=', 'cat.id_categoria')
+                ->select(
+                    'c.*',
+                    'cat.nombre_categoria as categoria_nombre'
+                )
+                ->where('c.id_curso', $id)
+                ->where('c.instructor_id', $user->id)
+                ->first();
+
+            if (!$curso) {
+                return redirect('/panel-instructor')->with('error', 'Curso no encontrado');
+            }
+
+            // Obtener módulos del curso
+            $modulos = DB::table('modulos')
+                ->where('id_curso', $id)
+                ->whereNull('deleted_at')
+                ->orderBy('orden')
+                ->get();
+
+            // Obtener lecciones para cada módulo
+            foreach ($modulos as $modulo) {
+                $modulo->lecciones = DB::table('lecciones')
+                    ->where('id_modulo', $modulo->id_modulo)
+                    ->orderBy('orden')
+                    ->get();
+            }
+
+            // Obtener estadísticas
+            $totalModulos = $modulos->count();
+            $totalLecciones = 0;
+            foreach ($modulos as $modulo) {
+                $totalLecciones += count($modulo->lecciones);
+            }
+
+            $totalInscripciones = DB::table('inscripciones')
+                ->where('id_curso', $id)
+                ->count();
+
+            return view('ver_curso', compact(
+                'curso', 
+                'modulos',
+                'totalModulos', 
+                'totalLecciones', 
+                'totalInscripciones'
+            ));
+
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            return redirect('/login')->with('error', 'Token expirado');
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return redirect('/login')->with('error', 'Token inválido');
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            return redirect('/login')->with('error', 'Token no proporcionado');
+        } catch (\Exception $e) {
+            return redirect('/panel-instructor')->with('error', 'Error al cargar el curso');
+        }
+    }
+
+    public function verCursoEstudiante($id)
+    {
+        try {
+            // Verificar autenticación JWT
+            $user = JWTAuth::parseToken()->authenticate();
+            
+            if (!$user || $user->rol !== 'estudiante') {
+                return redirect('/login')->with('error', 'No autorizado');
+            }
+
+            // Verificar que el estudiante esté inscrito en el curso
+            $inscripcion = DB::table('inscripciones')
+                ->where('id_usuario', $user->id)
+                ->where('id_curso', $id)
+                ->first();
+
+            if (!$inscripcion) {
+                return redirect('/mis-cursos')->with('error', 'No estás inscrito en este curso');
+            }
+
+            // Buscar el curso usando DB facade
+            $curso = DB::table('cursos as c')
+                ->leftJoin('categorias as cat', 'c.id_categoria', '=', 'cat.id_categoria')
+                ->leftJoin('usuarios as u', 'c.instructor_id', '=', 'u.id')
+                ->select(
+                    'c.*',
+                    'cat.nombre_categoria as categoria_nombre',
+                    'u.nombre as instructor_nombre',
+                    'u.apellido as instructor_apellido'
+                )
+                ->where('c.id_curso', $id)
+                ->where('c.estado', 'publicado')
+                ->first();
+
+            if (!$curso) {
+                return redirect('/mis-cursos')->with('error', 'Curso no encontrado');
+            }
+
+            // Obtener módulos del curso
+            $modulos = DB::table('modulos')
+                ->where('id_curso', $id)
+                ->whereNull('deleted_at')
+                ->orderBy('orden')
+                ->get();
+
+            // Obtener lecciones para cada módulo
+            foreach ($modulos as $modulo) {
+                $modulo->lecciones = DB::table('lecciones')
+                    ->where('id_modulo', $modulo->id_modulo)
+                    ->orderBy('orden')
+                    ->get();
+                    
+                // Obtener recursos para cada lección
+                foreach ($modulo->lecciones as $leccion) {
+                    $leccion->recursos = DB::table('recursos')
+                        ->where('id_leccion', $leccion->id_leccion)
+                        ->get();
+                }
+            }
+
+            // Obtener estadísticas
+            $totalModulos = $modulos->count();
+            $totalLecciones = 0;
+            foreach ($modulos as $modulo) {
+                $totalLecciones += count($modulo->lecciones);
+            }
+
+            // Calcular progreso del estudiante
+            $leccionesCompletadas = DB::table('progreso_lecciones as pl')
+                ->join('lecciones as l', 'pl.id_leccion', '=', 'l.id_leccion')
+                ->join('modulos as m', 'l.id_modulo', '=', 'm.id_modulo')
+                ->where('m.id_curso', $id)
+                ->where('pl.id_inscripcion', $inscripcion->id_inscripcion)
+                ->where('pl.completado', true)
+                ->count();
+
+            $progresoCalculado = $totalLecciones > 0 ? ($leccionesCompletadas / $totalLecciones) * 100 : 0;
+
+            return view('ver_curso_estudiante', compact(
+                'curso', 
+                'modulos',
+                'totalModulos', 
+                'totalLecciones', 
+                'progresoCalculado',
+                'leccionesCompletadas',
+                'inscripcion'
+            ));
+
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            return redirect('/login')->with('error', 'Token expirado');
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return redirect('/login')->with('error', 'Token inválido');
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            return redirect('/login')->with('error', 'Token no proporcionado');
+        } catch (\Exception $e) {
+            return redirect('/mis-cursos')->with('error', 'Error al cargar el curso');
+        }
+    }
     
 
 }

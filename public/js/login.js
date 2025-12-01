@@ -35,10 +35,22 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         // Login exitoso, guardar token con el nombre correcto
         const token = result.token;
+        
+        console.log("Token recibido del servidor:", token);
+        console.log("Longitud del token:", token.length);
+        
+        // Decodificar y mostrar el payload
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          console.log("Payload del token:", payload);
+        } catch (e) {
+          console.error("Error al decodificar token:", e);
+        }
+        
         localStorage.setItem("jwt_token", token);
+        console.log("Token guardado en localStorage");
 
         alert("✅ Inicio de sesión exitoso.");
-        console.log("Token guardado:", token);
 
         // Redirigir a mis cursos
         window.location.href = "/mis-cursos";

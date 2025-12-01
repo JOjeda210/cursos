@@ -35,17 +35,38 @@ class AuthService
         if (!$user) throw new \Exception('Usuario no encontrado');
         if (!$user->activo) throw new \Exception('Usuario inactivo');
         Hash::check($password, $user->password) ?: throw new \Exception('Contraseña incorrecta');
-        $jwtUser = new class($user->id_usuario) implements JWTSubject {
+        
+        $jwtUser = new class($user->id_usuario, $user->id_rol, $user->nombre, $user->apellido) implements JWTSubject {
             private $id;
-            public function __construct($id) { $this->id = $id; }
-            public function getJWTIdentifier() { return $this->id; }
-            public function getJWTCustomClaims() { return []; }
+            private $id_rol;
+            private $nombre;
+            private $apellido;
+            
+            public function __construct($id, $id_rol, $nombre, $apellido) { 
+                $this->id = $id;
+                $this->id_rol = $id_rol;
+                $this->nombre = $nombre;
+                $this->apellido = $apellido;
+            }
+            
+            public function getJWTIdentifier() { 
+                return $this->id; 
+            }
+            
+            public function getJWTCustomClaims() { 
+                return [
+                    'id_rol' => $this->id_rol,
+                    'nombre' => $this->nombre,
+                    'apellido' => $this->apellido
+                ];
+            }
         };
+        
         $token = JWTAuth::fromUser($jwtUser);
-       unset($user->password);
-       return [
+        unset($user->password);
+        return [
             'token' => $token,
-            'user' => $user // Esto incluye el id_rol
+            'user' => $user
         ];
         
     }

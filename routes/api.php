@@ -28,6 +28,9 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/cursos', [CursoController::class, 'index']);
 Route::get('/cursos/{id}', [CursoController::class, 'show']);
 
+// Endpoint de categorías (público para formularios)
+Route::get('/categorias', [\App\Http\Controllers\Api\CategoriaController::class, 'index']);
+
 /// ENDPOINTS DE OPERACION PARA USUARIO AUTENTICADO
 
 // Endpoints de favoritos
@@ -52,6 +55,7 @@ Route::get('/instructor/cursos',[CursoController::class, 'indexCoursesInstructor
 Route::post('/instructor/cursos',[CursoController::class, 'storeCourseInstructor']);
 Route::put('/instructor/cursos/{id}',[CursoController::class, 'updateCourseInstructor']);
 Route::delete('/instructor/cursos/{id}',[CursoController::class, 'destroyCoursesInstructor']);
+Route::patch('/instructor/cursos/{id}/publicar',[CursoController::class, 'publishCourse']);
 
 // Rutas CRUD MODULOS Admin - 
 Route::get('/instructor/modulos/{id}',[ModuleController::class,'indexModules']);

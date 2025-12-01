@@ -55,6 +55,10 @@
                 <button type="submit" class="btn btn-miaula w-100">Registrarse</button>
               </form>
 
+              <div class="text-center mt-3">
+                <p class="mb-0">¿Quieres compartir tu conocimiento? <a href="/registro-instructor" class="text-decoration-none fw-bold">Regístrate como instructor</a></p>
+              </div>
+
             </div>
           </div>
         </div>
