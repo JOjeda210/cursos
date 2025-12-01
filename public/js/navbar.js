@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     <li><a href="/catalogos">Cursos</a></li>
                     <li><a href="/promociones">Promociones</a></li>
                     <li><a href="/panel-instructor">Panel Instructor</a></li>
-                    <li><a href="/mis-cursos">Mis Cursos</a></li>
                     <li><a href="#" id="logout-btn-dynamic">Cerrar sesión</a></li>
                 `;
             } else if (idRol === 2) {

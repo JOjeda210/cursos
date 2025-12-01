@@ -91,3 +91,8 @@ Route::get('/panel-instructor/recursos', function () {
 Route::get('/mis-cursos/{id}', [CursoController::class, 'verCursoEstudiante'])
     ->name('curso.estudiante')
     ->middleware('web.jwt');
+
+// Ver Lección (Estudiante)
+Route::get('/mis-cursos/{curso}/leccion/{leccion}', [\App\Http\Controllers\LeccionController::class, 'verLeccion'])
+    ->name('leccion.ver')
+    ->middleware('web.jwt');

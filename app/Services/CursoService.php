@@ -8,42 +8,19 @@ class CursoService
     
     public function obtenerCursos($userId = null)
     {
-        if ($userId) {
-            // Si hay userId, incluir información de inscripción
-            $sql = "SELECT 
-                        c.id_curso, 
-                        c.titulo, 
-                        c.descripcion, 
-                        c.precio, 
-                        c.estado,
-                        c.imagen_portada,
-                        cat.nombre_categoria,
-                        CASE 
-                            WHEN i.id_inscripcion IS NOT NULL THEN 1 
-                            ELSE 0 
-                        END as esta_inscrito
-                    FROM cursos c
-                    LEFT JOIN categorias cat ON c.id_categoria = cat.id_categoria
-                    LEFT JOIN inscripciones i ON c.id_curso = i.id_curso AND i.id_usuario = ?
-                    WHERE c.estado = 'publicado'
-                    ORDER BY c.fecha_creacion DESC";
-            return DB::select($sql, [$userId]);
-        } else {
-            // Si no hay userId, solo obtener cursos básicos
-            $sql = "SELECT 
-                        c.id_curso, 
-                        c.titulo, 
-                        c.descripcion, 
-                        c.precio, 
-                        c.estado,
-                        c.imagen_portada,
-                        cat.nombre_categoria
-                    FROM cursos c
-                    LEFT JOIN categorias cat ON c.id_categoria = cat.id_categoria
-                    WHERE c.estado = 'publicado'
-                    ORDER BY c.fecha_creacion DESC";
-            return DB::select($sql);
-        }
+        $sql = "SELECT 
+                    c.id_curso, 
+                    c.titulo, 
+                    c.descripcion, 
+                    c.precio, 
+                    c.estado,
+                    c.imagen_portada,
+                    cat.nombre_categoria
+                FROM cursos c
+                LEFT JOIN categorias cat ON c.id_categoria = cat.id_categoria
+                WHERE c.estado = 'publicado'
+                ORDER BY c.fecha_creacion DESC";
+        return DB::select($sql);
     }
 
     public function obtenerCursoPorId($id)
@@ -55,21 +32,29 @@ class CursoService
     public function getMyCourses($id)
     {
         $query = "SELECT 
+                    c.id_curso,
                     c.titulo,
                     c.descripcion, 
-                    c.imagen_portada
+                    c.imagen_portada,
+                    c.precio,
+                    c.estado,
+                    i.progreso,
+                    i.fecha_inscripcion,
+                    cat.nombre_categoria
                   FROM cursos c
                   JOIN inscripciones i ON c.id_curso = i.id_curso
-                  WHERE i.id_usuario = ?"; 
+                  LEFT JOIN categorias cat ON c.id_categoria = cat.id_categoria
+                  WHERE i.id_usuario = ?
+                  ORDER BY i.fecha_inscripcion DESC"; 
         
         $cursos = DB::select($query, [$id]);
         
         foreach ($cursos as $curso) {
             if ($curso->imagen_portada) {
-                // Las imágenes están en public/cursos/
-                $curso->imagen_portada = asset($curso->imagen_portada);
+                // No usar asset() porque ya tiene la ruta completa
+                $curso->imagen_url = '/storage/' . $curso->imagen_portada;
             } else {
-                $curso->imagen_portada = 'https://via.placeholder.com/400x200';
+                $curso->imagen_url = 'https://via.placeholder.com/400x200';
             }
         }
         
@@ -177,7 +162,7 @@ class CursoService
     public function getInstructorCourses($idInstructor)
     {
         $courses = DB::table('cursos')
-            ->select('id_curso','titulo','imagen_portada','descripcion','precio','estado')
+            ->select('id_curso','titulo','imagen_portada','descripcion','precio','estado','id_categoria')
             ->where('id_instructor', $idInstructor)
             ->where('estado', '!=', 'eliminado')
             ->orderBy('fecha_creacion', 'desc')
@@ -233,6 +218,135 @@ class CursoService
             ]);
 
         return true;
+    }
+
+    public function obtenerCursoCompleto($id)
+    {
+        // Obtener información básica del curso
+        $curso = DB::table('cursos as c')
+            ->leftJoin('categorias as cat', 'c.id_categoria', '=', 'cat.id_categoria')
+            ->select('c.*', 'cat.nombre_categoria')
+            ->where('c.id_curso', $id)
+            ->first();
+
+        if (!$curso) {
+            return null;
+        }
+
+        // Obtener módulos del curso
+        $modulos = DB::table('modulos')
+            ->where('id_curso', $id)
+            ->whereNull('deleted_at')
+            ->orderBy('orden')
+            ->get();
+
+        // Obtener lecciones para cada módulo
+        foreach ($modulos as $modulo) {
+            $modulo->lecciones = DB::table('lecciones')
+                ->where('id_modulo', $modulo->id_modulo)
+                ->orderBy('orden')
+                ->get();
+        }
+
+        // Estadísticas
+        $curso->modulos = $modulos;
+        $curso->totalModulos = $modulos->count();
+        $curso->totalLecciones = 0;
+        foreach ($modulos as $modulo) {
+            $curso->totalLecciones += count($modulo->lecciones);
+        }
+
+        $curso->totalInscripciones = DB::table('inscripciones')
+            ->where('id_curso', $id)
+            ->count();
+
+        return $curso;
+    }
+
+    public function obtenerCursoParaEstudiante($idCurso, $idUsuario)
+    {
+        // Verificar inscripción
+        $inscripcion = DB::table('inscripciones')
+            ->where('id_usuario', $idUsuario)
+            ->where('id_curso', $idCurso)
+            ->first();
+
+        if (!$inscripcion) {
+            return null;
+        }
+
+        // Obtener información del curso
+        $curso = DB::table('cursos as c')
+            ->leftJoin('categorias as cat', 'c.id_categoria', '=', 'cat.id_categoria')
+            ->leftJoin('usuarios as u', 'c.id_instructor', '=', 'u.id_usuario')
+            ->select(
+                'c.*',
+                'cat.nombre_categoria',
+                'u.nombre as instructor_nombre',
+                'u.apellido as instructor_apellido'
+            )
+            ->where('c.id_curso', $idCurso)
+            ->where('c.estado', 'publicado')
+            ->first();
+
+        if (!$curso) {
+            return null;
+        }
+
+        // Obtener módulos
+        $modulos = DB::table('modulos')
+            ->where('id_curso', $idCurso)
+            ->whereNull('deleted_at')
+            ->orderBy('orden')
+            ->get();
+
+        // Obtener lecciones y recursos para cada módulo
+        foreach ($modulos as $modulo) {
+            $modulo->lecciones = DB::table('lecciones')
+                ->where('id_modulo', $modulo->id_modulo)
+                ->orderBy('orden')
+                ->get();
+
+            foreach ($modulo->lecciones as $leccion) {
+                // Obtener recursos
+                $leccion->recursos = DB::table('recursos')
+                    ->where('id_leccion', $leccion->id_leccion)
+                    ->get();
+                
+                // Verificar si la lección está completada
+                $progresoLeccion = DB::table('progreso_lecciones')
+                    ->where('id_inscripcion', $inscripcion->id_inscripcion)
+                    ->where('id_leccion', $leccion->id_leccion)
+                    ->first();
+                
+                $leccion->completada = $progresoLeccion && $progresoLeccion->completado ? true : false;
+            }
+        }
+
+        // Estadísticas
+        $curso->modulos = $modulos;
+        $curso->totalModulos = $modulos->count();
+        $curso->totalLecciones = 0;
+        foreach ($modulos as $modulo) {
+            $curso->totalLecciones += count($modulo->lecciones);
+        }
+
+        // Calcular progreso
+        $leccionesCompletadas = DB::table('progreso_lecciones as pl')
+            ->join('lecciones as l', 'pl.id_leccion', '=', 'l.id_leccion')
+            ->join('modulos as m', 'l.id_modulo', '=', 'm.id_modulo')
+            ->where('m.id_curso', $idCurso)
+            ->where('pl.id_inscripcion', $inscripcion->id_inscripcion)
+            ->where('pl.completado', true)
+            ->count();
+
+        $curso->progresoCalculado = $curso->totalLecciones > 0 
+            ? ($leccionesCompletadas / $curso->totalLecciones) * 100 
+            : 0;
+        $curso->leccionesCompletadas = $leccionesCompletadas;
+        $curso->inscripcion = $inscripcion;
+
+        return $curso;
     }
 
 

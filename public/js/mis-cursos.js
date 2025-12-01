@@ -64,6 +64,11 @@ function cargarMisCursos() {
         if (!data) return;
 
         console.log('Mis cursos:', data);
+        
+        // DEBUG: Verificar que cada curso tenga id_curso
+        data.forEach(curso => {
+            console.log('Curso:', curso.titulo, 'ID:', curso.id_curso);
+        });
 
         if (!data || data.length === 0) {
             container.innerHTML = `
@@ -82,9 +87,7 @@ function cargarMisCursos() {
 
         // Generar las tarjetas de cursos
         const cursosHTML = data.map(curso => {
-            const imagenUrl = curso.imagen_portada 
-                ? `http://plataforma-cursos-appsweb.test/storage/${curso.imagen_portada}` 
-                : 'https://via.placeholder.com/400x200?text=Sin+Imagen';
+            const imagenUrl = curso.imagen_url || 'https://via.placeholder.com/400x200?text=Sin+Imagen';
 
             // Calcular progreso (si está disponible)
             const progreso = curso.progreso || 0;
@@ -143,10 +146,10 @@ function cargarMisCursos() {
                             </div>
                             
                             <div class="d-grid gap-2">
-                                <a href="/mis-cursos/${curso.id_curso}" class="btn btn-primary">
+                                <button class="btn btn-primary" onclick="irACurso(${curso.id_curso})">
                                     <i class="fas fa-play-circle me-2"></i>
                                     Continuar Curso
-                                </a>
+                                </button>
                                 <button class="btn btn-outline-secondary btn-sm" 
                                         onclick="dejarComentario(${curso.id_curso}, '${curso.titulo}')">
                                     <i class="fas fa-comment me-2"></i>
@@ -257,5 +260,22 @@ function dejarComentario(cursoId, titulo) {
     modal.show();
 }
 
-// Hacer la función global
+/**
+ * Redirige al curso del estudiante
+ */
+function irACurso(cursoId) {
+    if (!cursoId) {
+        console.error('ID de curso no definido');
+        alert('Error: ID de curso no encontrado');
+        return;
+    }
+    
+    console.log('Navegando al curso ID:', cursoId);
+    // Guardar el ID en sessionStorage para que esté disponible en la siguiente página
+    sessionStorage.setItem('curso_actual', cursoId);
+    window.location.href = `/mis-cursos/${cursoId}`;
+}
+
+// Hacer las funciones globales
 window.dejarComentario = dejarComentario;
+window.irACurso = irACurso;

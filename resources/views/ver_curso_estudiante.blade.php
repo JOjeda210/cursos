@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $curso->titulo }} - Mi Curso</title>
+    <title>Cargando curso...</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -146,8 +146,8 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h1 class="display-5 fw-bold mb-3">{{ $curso->titulo }}</h1>
-                    <p class="lead mb-4">{{ $curso->descripcion }}</p>
+                    <h1 id="curso-titulo" class="display-5 fw-bold mb-3">Cargando...</h1>
+                    <p id="curso-descripcion" class="lead mb-4">Cargando descripción...</p>
                     <div class="d-flex align-items-center gap-3">
                         <span class="badge bg-success fs-6 px-3 py-2">
                             <i class="fas fa-check-circle me-2"></i>

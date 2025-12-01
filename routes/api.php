@@ -47,35 +47,39 @@ Route::middleware('jwt.auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/mis-cursos', [CursoController::class, 'indexMyCourses']);
     Route::post('/enroll', [CursoController::class, 'enroll']);
+    
+    // Obtener datos del curso para estudiante
+    Route::get('/mis-cursos/{id}/datos', [CursoController::class, 'obtenerCursoEstudiante']);
+    
+    // Rutas para lecciones de estudiantes
+    Route::get('/lecciones/{id}/datos', [\App\Http\Controllers\LeccionController::class, 'obtenerDatosLeccion']);
+    Route::post('/lecciones/{id}/completar', [\App\Http\Controllers\LeccionController::class, 'completarLeccion']);
+    
+    // Rutas CRUD CURSOS Admin - 
+    Route::get('/instructor/cursos',[CursoController::class, 'indexCoursesInstructor']);
+    Route::post('/instructor/cursos',[CursoController::class, 'storeCourseInstructor']);
+    Route::put('/instructor/cursos/{id}',[CursoController::class, 'updateCourseInstructor']);
+    Route::delete('/instructor/cursos/{id}',[CursoController::class, 'destroyCoursesInstructor']);
+    Route::patch('/instructor/cursos/{id}/publicar',[CursoController::class, 'publishCourse']);
+
+    // Rutas CRUD MODULOS Admin - 
+    Route::get('/instructor/modulos/{id}',[ModuleController::class,'indexModules']);
+    Route::post('/instructor/modulos',[ModuleController::class,'storeModule']);
+    Route::put('/instructor/modulos/{id}',[ModuleController::class,'updateModule']);
+    Route::delete('/instructor/modulos/{id}',[ModuleController::class,'destroyModule']);
+
+    // Rutas CRUD LECCIONES Admin - 
+    Route::get('/modulos/{id}/lecciones', [LessonController::class, 'indexLessons']);
+    Route::post('/lecciones', [LessonController::class, 'storeLesson']);
+    Route::put('/lecciones/{id}', [LessonController::class, 'updateLesson']);
+    Route::delete('/lecciones/{id}', [LessonController::class, 'destroyLesson']);
+
+    // Rutas CRUD RECURSOS Admin - 
+    Route::get('/leccions/{id}/recursos', [ResourceController::class, 'indexResource']);
+    Route::post('/recursos', [ResourceController::class, 'storeResource']);
+    Route::post('/recursos/{id}', [ResourceController::class, 'updateResource']); 
+    Route::delete('/recursos/{id}', [ResourceController::class, 'destroyResource']);
+
+    // Ruta para el usuario 
+    Route::get('/player/curso/{id}', [PlayerController::class, 'getCourseContent']);
 });
-
-
-// Rutas CRUD CURSOS Admin - 
-Route::get('/instructor/cursos',[CursoController::class, 'indexCoursesInstructor']);
-Route::post('/instructor/cursos',[CursoController::class, 'storeCourseInstructor']);
-Route::put('/instructor/cursos/{id}',[CursoController::class, 'updateCourseInstructor']);
-Route::delete('/instructor/cursos/{id}',[CursoController::class, 'destroyCoursesInstructor']);
-Route::patch('/instructor/cursos/{id}/publicar',[CursoController::class, 'publishCourse']);
-
-// Rutas CRUD MODULOS Admin - 
-Route::get('/instructor/modulos/{id}',[ModuleController::class,'indexModules']);
-Route::post('/instructor/modulos',[ModuleController::class,'storeModule']);
-Route::put('/instructor/modulos/{id}',[ModuleController::class,'updateModule']);
-Route::delete('/instructor/modulos/{id}',[ModuleController::class,'destroyModule']);
-
-// Rutas CRUD LECCIONES Admin - 
-Route::get('/modulos/{id}/lecciones', [LessonController::class, 'indexLessons']);
-Route::post('/lecciones', [LessonController::class, 'storeLesson']);
-Route::put('/lecciones/{id}', [LessonController::class, 'updateLesson']);
-Route::delete('/lecciones/{id}', [LessonController::class, 'destroyLesson']);
-
-
-// Rutas CRUD RECURSOS Admin - 
-Route::get('/leccions/{id}/recursos', [ResourceController::class, 'indexResource']);
-Route::post('/recursos', [ResourceController::class, 'storeResource']);
-Route::post('/recursos/{id}', [ResourceController::class, 'updateResource']); 
-Route::delete('/recursos/{id}', [ResourceController::class, 'destroyResource']);
-
-
-// Ruta para el usuario 
-Route::get('/player/curso/{id}', [PlayerController::class, 'getCourseContent']);

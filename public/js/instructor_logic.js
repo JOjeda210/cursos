@@ -1,9 +1,14 @@
 const BASE_API = '/api/';
-const token = localStorage.getItem('jwt_token');
 let modalBootstrap;
 let categoriasData = []; // Almacena las categorías para uso en renderizado
 
+function getToken() {
+    return localStorage.getItem('jwt_token');
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+    const token = getToken();
+    
     if (!token) {
         alert('Debes iniciar sesión para acceder a esta página');
         window.location.href = '/login';
@@ -72,6 +77,7 @@ function mostrarVistaPrevia(event) {
 }
 
 function getHeaders() {
+    const token = getToken();
     return {
         "Accept": "application/json",
         "Authorization": `Bearer ${token}`
@@ -79,6 +85,7 @@ function getHeaders() {
 }
 
 function getJsonHeaders() {
+    const token = getToken();
     return {
         "Content-Type": "application/json",
         "Accept": "application/json",

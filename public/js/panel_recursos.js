@@ -125,7 +125,7 @@ async function cargarCursos() {
 
 async function cargarModulos(cursoId) {
     try {
-        const res = await fetch(`${BASE_API}courses/${cursoId}/modules`, { headers: getJsonHeaders() });
+        const res = await fetch(`${BASE_API}instructor/modulos/${cursoId}`, { headers: getJsonHeaders() });
         
         if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
 
@@ -150,7 +150,7 @@ async function cargarModulos(cursoId) {
 
 async function cargarLecciones(moduloId) {
     try {
-        const res = await fetch(`${BASE_API}modules/${moduloId}/lessons`, { headers: getJsonHeaders() });
+        const res = await fetch(`${BASE_API}modulos/${moduloId}/lecciones`, { headers: getJsonHeaders() });
         
         if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
 
@@ -175,7 +175,7 @@ async function cargarLecciones(moduloId) {
 
 async function cargarRecursos(leccionId) {
     try {
-        const res = await fetch(`${BASE_API}lessons/${leccionId}/resources`, { headers: getJsonHeaders() });
+        const res = await fetch(`${BASE_API}leccions/${leccionId}/recursos`, { headers: getJsonHeaders() });
         
         if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
 
@@ -225,7 +225,9 @@ function renderizarRecursos(recursos) {
                         <td>
                             ${recurso.tipo === 'link' || recurso.tipo === 'video' 
                                 ? `<a href="${recurso.url}" target="_blank" class="text-primary">Ver recurso</a>`
-                                : `<span class="text-muted">${recurso.url ? 'Archivo subido' : 'Sin archivo'}</span>`
+                                : recurso.url 
+                                    ? `<a href="/storage/${recurso.url}" target="_blank" class="text-primary">Ver archivo</a>`
+                                    : `<span class="text-muted">Sin archivo</span>`
                             }
                         </td>
                         <td>
@@ -320,11 +322,11 @@ async function guardarRecurso(e) {
         formData.append('descripcion', descripcion);
     }
 
-    let url = `${BASE_API}resources`;
+    let url = `${BASE_API}recursos`;
     let method = "POST";
 
     if (id) {
-        url = `${BASE_API}resources/${id}`;
+        url = `${BASE_API}recursos/${id}`;
         method = "PUT";
     }
 
@@ -354,7 +356,7 @@ async function eliminarRecurso(id) {
     if (!confirm("¿Eliminar este recurso?")) return;
 
     try {
-        const res = await fetch(`${BASE_API}resources/${id}`, {
+        const res = await fetch(`${BASE_API}recursos/${id}`, {
             method: "DELETE",
             headers: getJsonHeaders()
         });

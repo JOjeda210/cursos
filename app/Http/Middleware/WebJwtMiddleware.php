@@ -9,8 +9,9 @@ class WebJwtMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        // Para rutas web, simplemente retornamos la vista
-        // La validación del token se hará en el frontend con JavaScript
+        // Para rutas web, la validación del token se hará en JavaScript
+        // Este middleware solo sirve para marcar las rutas que necesitan autenticación
+        // La vista se cargará y el JS verificará el token
         return $next($request);
     }
 }
