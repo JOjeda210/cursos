@@ -52,8 +52,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         alert("✅ Inicio de sesión exitoso.");
 
-        // Redirigir a mis cursos
-        window.location.href = "/mis-cursos";
+        // Redirigir según el rol
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          if (payload.id_rol === 1) {
+            // Instructor - redirigir al panel instructor
+            window.location.href = "/panel-instructor";
+          } else {
+            // Estudiante - redirigir a mis cursos
+            window.location.href = "/mis-cursos";
+          }
+        } catch (e) {
+          console.error("Error al decodificar token:", e);
+          window.location.href = "/mis-cursos";
+        }
       } else {
         // Error en las credenciales o usuario
         const mensaje = result.error || "Credenciales incorrectas.";

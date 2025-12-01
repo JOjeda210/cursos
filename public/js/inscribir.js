@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       try { data = await resp.json(); } catch (e) { /* respuesta vacía o no JSON */ }
 
       if (resp.status === 201) {
-        alert(data.mensaje || "Inscripción exitosa");
+        alert("Inscrito correctamente");
         btn.innerText = "Inscrito";
         btn.disabled = true;
       } else if (resp.status === 422) {

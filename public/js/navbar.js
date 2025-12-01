@@ -24,8 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (idRol === 1) {
                 privateLinks.innerHTML = `
-                    <li><a href="/catalogos">Cursos</a></li>
-                    <li><a href="/promociones">Promociones</a></li>
+                    <li><a href="/">Sobre nosotros</a></li>
                     <li><a href="/panel-instructor">Panel Instructor</a></li>
                     <li><a href="#" id="logout-btn-dynamic">Cerrar sesión</a></li>
                 `;
