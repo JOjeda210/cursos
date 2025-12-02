@@ -16,7 +16,7 @@ function cargarCursos() {
 
     console.log('Haciendo petición a /api/mis-cursos...');
 
-    fetch('http://plataforma-cursos-appsweb.test/api/mis-cursos', {
+    fetch('/api/mis-cursos', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,

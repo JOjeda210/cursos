@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.disabled = true;
 
     try {
-      const resp = await fetch("http://plataforma-cursos-appsweb.test/api/enroll", {
+      const resp = await fetch("/api/enroll", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,

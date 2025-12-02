@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btnSubmit.textContent = "Enviando...";
 
         try {
-            const response = await fetch("http://plataforma-cursos-appsweb.test/api/comentarios", {
+            const response = await fetch("/api/comentarios", {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,
