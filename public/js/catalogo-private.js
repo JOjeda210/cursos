@@ -1,7 +1,86 @@
 document.addEventListener('DOMContentLoaded', () => {
     verificarAutenticacion();
     cargarCursosPrivados();
+    
+    // Agregar listener para los botones de inscripción
+    document.addEventListener('click', manejarInscripcion);
 });
+
+/**
+ * Maneja la inscripción a cursos
+ */
+async function manejarInscripcion(e) {
+    const btn = e.target.closest('.btn-inscribir');
+    if (!btn) return;
+
+    e.preventDefault();
+    
+    const idCurso = btn.getAttribute('data-curso-id');
+    if (!idCurso) {
+        alert('Error: No se encontró el ID del curso');
+        return;
+    }
+
+    const token = localStorage.getItem('jwt_token');
+    if (!token) {
+        alert('Debes iniciar sesión para inscribirte');
+        window.location.href = '/login';
+        return;
+    }
+
+    // Prevenir doble click
+    if (btn.dataset.loading === '1') return;
+    btn.dataset.loading = '1';
+    
+    const textoOriginal = btn.innerText;
+    btn.innerText = 'Inscribiendo...';
+    btn.disabled = true;
+
+    try {
+        const response = await fetch('/api/enroll', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ id_curso: parseInt(idCurso) })
+        });
+
+        let data = {};
+        try { data = await response.json(); } catch (e) { /* respuesta vacía */ }
+
+        if (response.status === 201) {
+            alert('Inscrito correctamente');
+            btn.innerText = 'Inscrito';
+            btn.classList.remove('btn-inscribir');
+            btn.classList.add('btn-success');
+            // No restaurar el botón, mantener como "Inscrito"
+        } else if (response.status === 422) {
+            const mensaje = data.error || data.mensaje || 'Ya estás inscrito en este curso';
+            alert(mensaje);
+            restaurarBoton(btn, textoOriginal);
+        } else if (response.status === 401) {
+            alert('Tu sesión ha expirado. Inicia sesión nuevamente');
+            localStorage.removeItem('jwt_token');
+            window.location.href = '/login';
+        } else {
+            const mensaje = data.message || data.error || 'Error al inscribirse';
+            alert('Error: ' + mensaje);
+            restaurarBoton(btn, textoOriginal);
+        }
+    } catch (error) {
+        console.error('Error de red:', error);
+        alert('Error de conexión. Inténtalo nuevamente');
+        restaurarBoton(btn, textoOriginal);
+    }
+}
+
+function restaurarBoton(btn, textoOriginal) {
+    btn.innerText = textoOriginal;
+    btn.disabled = false;
+    btn.dataset.loading = '0';
+}
 
 /**
  * Verifica si el usuario tiene un token JWT válido

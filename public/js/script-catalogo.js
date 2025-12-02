@@ -86,26 +86,47 @@ function renderizarCursosPublicos(cursos, token) {
 async function inscribirCurso(cursoId) {
     const token = localStorage.getItem('jwt_token');
     
+    if (!token) {
+        alert('Necesitas iniciar sesión para inscribirte');
+        window.location.href = '/login';
+        return;
+    }
+    
     try {
-        const response = await fetch('/api/inscripcion', {
+        const response = await fetch('/api/enroll', {  // Ruta correcta
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
             },
             body: JSON.stringify({ id_curso: parseInt(cursoId) })
         });
 
-        const data = await response.json();
+        let data = {};
+        try { 
+            data = await response.json(); 
+        } catch (e) { 
+            // Si no puede parsear JSON, crear un objeto vacío
+            data = { message: 'Respuesta del servidor no válida' };
+        }
 
-        if (response.ok) {
-            alert('Te has inscrito exitosamente al curso');
+        if (response.status === 201) {
+            alert('Inscrito correctamente');
+        } else if (response.status === 422) {
+            const mensaje = data.error || data.mensaje || 'Ya estás inscrito en este curso';
+            alert(mensaje);
+        } else if (response.status === 401) {
+            alert('Tu sesión ha expirado. Inicia sesión nuevamente');
+            localStorage.removeItem('jwt_token');
+            window.location.href = '/login';
         } else {
-            alert(data.error || 'Error al inscribirte');
+            const mensaje = data.error || data.message || 'Error al inscribirte';
+            alert('Error: ' + mensaje);
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error al procesar la inscripción');
+        alert('Error de conexión al procesar la inscripción');
     }
 }
 
