@@ -23,7 +23,7 @@ function cargarDatosLeccion(leccionId, cursoId) {
         return;
     }
     
-    fetch(`http://plataforma-cursos-appsweb.test/api/lecciones/${leccionId}/datos`, {
+    fetch(`/api/lecciones/${leccionId}/datos`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -306,7 +306,7 @@ function marcarComoCompletada(leccionId, cursoId) {
     btnCompletar.disabled = true;
     btnCompletar.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Procesando...';
     
-    fetch(`http://plataforma-cursos-appsweb.test/api/lecciones/${leccionId}/completar`, {
+    fetch(`/api/lecciones/${leccionId}/completar`, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,

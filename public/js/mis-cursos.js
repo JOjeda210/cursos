@@ -38,7 +38,7 @@ function cargarMisCursos() {
     const token = localStorage.getItem('jwt_token');
     const container = document.getElementById('mis-cursos-container');
 
-    fetch('http://plataforma-cursos-appsweb.test/api/mis-cursos', {
+    fetch('/api/mis-cursos', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,

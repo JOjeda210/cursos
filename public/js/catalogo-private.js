@@ -106,7 +106,7 @@ function cargarCursosPrivados() {
     const token = localStorage.getItem('jwt_token');
     const container = document.getElementById('cursos-catalogo');
 
-    fetch('http://plataforma-cursos-appsweb.test/api/cursos', {
+    fetch('/api/cursos', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -142,7 +142,7 @@ function cargarCursosPrivados() {
         // Generar las tarjetas de cursos
         const cursosHTML = data.map(curso => {
             const imagenUrl = curso.imagen_portada 
-                ? `http://plataforma-cursos-appsweb.test/storage/${curso.imagen_portada}` 
+                ? `/storage/${curso.imagen_portada}` 
                 : 'https://via.placeholder.com/400x200?text=Sin+Imagen';
 
             // Determinar el botón de inscripción

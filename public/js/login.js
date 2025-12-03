@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const response = await fetch("http://plataforma-cursos-appsweb.test/api/login", {
+      const response = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

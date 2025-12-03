@@ -30,7 +30,7 @@ function cargarDatosCurso(cursoId) {
         return;
     }
     
-    fetch(`http://plataforma-cursos-appsweb.test/api/mis-cursos/${cursoId}/datos`, {
+    fetch(`/api/mis-cursos/${cursoId}/datos`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
