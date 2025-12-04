@@ -10,7 +10,7 @@ function verificarAutenticacion() {
     const token = localStorage.getItem('jwt_token');
     
     if (!token) {
-        alert('⚠️ Debes iniciar sesión para ver tus cursos');
+        alert(' Debes iniciar sesión para ver tus cursos');
         window.location.href = '/login';
         return false;
     }

@@ -109,7 +109,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('js/navbar.js') }}"></script>
-<script src="/js/lecciones.js"></script>
+<script src="{{ asset('js/navbar.js') }}" defer></script>
+<script src="/js/lecciones.js" defer></script>
 </body>
 </html>

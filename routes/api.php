@@ -59,6 +59,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('/instructor/cursos',[CursoController::class, 'indexCoursesInstructor']);
     Route::post('/instructor/cursos',[CursoController::class, 'storeCourseInstructor']);
     Route::put('/instructor/cursos/{id}',[CursoController::class, 'updateCourseInstructor']);
+    Route::post('/instructor/cursos/{id}',[CursoController::class, 'updateCourseInstructor']); // Para FormData con archivos usando _method
     Route::delete('/instructor/cursos/{id}',[CursoController::class, 'destroyCoursesInstructor']);
     Route::patch('/instructor/cursos/{id}/publicar',[CursoController::class, 'publishCourse']);
 
@@ -77,7 +78,8 @@ Route::middleware('jwt.auth')->group(function () {
     // Rutas CRUD RECURSOS Admin - 
     Route::get('/leccions/{id}/recursos', [ResourceController::class, 'indexResource']);
     Route::post('/recursos', [ResourceController::class, 'storeResource']);
-    Route::post('/recursos/{id}', [ResourceController::class, 'updateResource']); 
+    Route::put('/recursos/{id}', [ResourceController::class, 'updateResource']);
+    Route::post('/recursos/{id}', [ResourceController::class, 'updateResource']); // Para FormData con archivos usando _method
     Route::delete('/recursos/{id}', [ResourceController::class, 'destroyResource']);
 
     // Ruta para el usuario 

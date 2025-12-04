@@ -177,10 +177,6 @@ function renderizarCursos(datos) {
 
         // Botones dinámicos según el estado del curso
         let botonesAccion = `
-            <button class="btn btn-info btn-sm rounded-pill px-3 text-white" 
-                onclick="verCurso(${curso.id_curso})">
-                Ver Curso
-            </button>
             <button class="btn btn-outline-primary btn-sm rounded-pill px-3" 
                 onclick='editarCurso(${JSON.stringify(curso)})'>
                 Editar
@@ -207,14 +203,25 @@ function renderizarCursos(datos) {
             `;
         }
 
+        // Preparar imagen de portada
+        let imagenHTML = '';
+        if (curso.imagen_portada) {
+            const imagenUrl = `/storage/${curso.imagen_portada}`;
+            imagenHTML = `<img src="${imagenUrl}" class="card-img-top" alt="${titulo}" style="height: 180px; object-fit: cover;">`;
+        } else {
+            imagenHTML = `
+                <div class="card-img-top-wrapper d-flex align-items-center justify-content-center bg-light" style="height: 180px;">
+                    <i class="bi bi-book fs-1 text-secondary"></i>
+                </div>
+            `;
+        }
+
         contenedor.innerHTML += `
             <div class="col-md-4">
                 <div class="card promo-card h-100 position-relative">
                     <span class="badge badge-pos ${badgeClass}">${curso.estado || 'borrador'}</span>
                     
-                    <div class="card-img-top-wrapper d-flex align-items-center justify-content-center bg-light" style="height: 180px;">
-                        <i class="bi bi-book fs-1 text-secondary"></i>
-                    </div>
+                    ${imagenHTML}
 
                     <div class="card-body text-center">
                         <h5 class="fw-bold mb-1 text-dark">${titulo}</h5>
@@ -261,12 +268,13 @@ if (form) {
 
         if (id) {
             url = `${BASE_API}instructor/cursos/${id}`;
-            method = "PUT";
+            // Mantener POST pero agregar _method para simular PUT
+            formData.append('_method', 'PUT');
         }
 
         try {
             const res = await fetch(url, {
-                method: method,
+                method: method, // Siempre POST
                 headers: getHeaders(), // Sin Content-Type para FormData
                 body: formData
             });

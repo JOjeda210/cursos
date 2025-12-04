@@ -327,13 +327,14 @@ async function guardarRecurso(e) {
 
     if (id) {
         url = `${BASE_API}recursos/${id}`;
-        method = "PUT";
+        // Mantener POST pero agregar _method para simular PUT
+        formData.append('_method', 'PUT');
     }
 
     try {
         const res = await fetch(url, {
             method: method,
-            headers: getHeaders(),
+            headers: getHeaders(), // Solo Authorization y Accept, sin Content-Type
             body: formData
         });
 

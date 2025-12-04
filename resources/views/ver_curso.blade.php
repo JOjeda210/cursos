@@ -148,19 +148,6 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4 text-md-end">
-                    @if($curso->portaimagen)
-                        <img src="{{ asset('storage/' . $curso->portaimagen) }}" 
-                             alt="{{ $curso->titulo }}" 
-                             class="img-fluid rounded shadow"
-                             style="max-height: 200px; object-fit: cover;">
-                    @else
-                        <div class="bg-secondary rounded d-flex align-items-center justify-content-center" 
-                             style="height: 200px; width: 100%;">
-                            <i class="fas fa-image fa-3x text-light"></i>
-                        </div>
-                    @endif
-                </div>
             </div>
         </div>
     </div>
