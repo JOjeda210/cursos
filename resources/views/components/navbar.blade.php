@@ -1,3 +1,7 @@
+@if(!isset($skipBootstrapIcons))
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+@endif
+
 <nav class="navbar">
     <div class="nav-container">
 
@@ -6,6 +10,11 @@
 
         <!-- MENSAJE DE BIENVENIDA -->
         <div class="welcome-message hidden" id="welcome-message" style="color: white; font-weight: 500; margin-left: 20px;"></div>
+
+        <!-- BOTÓN HAMBURGUESA -->
+        <button class="navbar-toggler" id="navbar-toggler" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+        </button>
 
         <!-- LINKS CUANDO NO ESTÁ LOGUEADO -->
         <ul class="nav-links" id="public-links">
