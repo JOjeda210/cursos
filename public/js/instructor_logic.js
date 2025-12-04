@@ -177,10 +177,6 @@ function renderizarCursos(datos) {
 
         // Botones dinámicos según el estado del curso
         let botonesAccion = `
-            <button class="btn btn-info btn-sm rounded-pill px-3 text-white" 
-                onclick="verCurso(${curso.id_curso})">
-                Ver Curso
-            </button>
             <button class="btn btn-outline-primary btn-sm rounded-pill px-3" 
                 onclick='editarCurso(${JSON.stringify(curso)})'>
                 Editar
