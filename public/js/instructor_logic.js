@@ -261,12 +261,13 @@ if (form) {
 
         if (id) {
             url = `${BASE_API}instructor/cursos/${id}`;
-            method = "PUT";
+            // Mantener POST pero agregar _method para simular PUT
+            formData.append('_method', 'PUT');
         }
 
         try {
             const res = await fetch(url, {
-                method: method,
+                method: method, // Siempre POST
                 headers: getHeaders(), // Sin Content-Type para FormData
                 body: formData
             });

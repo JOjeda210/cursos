@@ -59,6 +59,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('/instructor/cursos',[CursoController::class, 'indexCoursesInstructor']);
     Route::post('/instructor/cursos',[CursoController::class, 'storeCourseInstructor']);
     Route::put('/instructor/cursos/{id}',[CursoController::class, 'updateCourseInstructor']);
+    Route::post('/instructor/cursos/{id}',[CursoController::class, 'updateCourseInstructor']); // Para FormData con archivos usando _method
     Route::delete('/instructor/cursos/{id}',[CursoController::class, 'destroyCoursesInstructor']);
     Route::patch('/instructor/cursos/{id}/publicar',[CursoController::class, 'publishCourse']);
 
