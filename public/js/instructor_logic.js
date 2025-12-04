@@ -207,14 +207,25 @@ function renderizarCursos(datos) {
             `;
         }
 
+        // Preparar imagen de portada
+        let imagenHTML = '';
+        if (curso.imagen_portada) {
+            const imagenUrl = `/storage/${curso.imagen_portada}`;
+            imagenHTML = `<img src="${imagenUrl}" class="card-img-top" alt="${titulo}" style="height: 180px; object-fit: cover;">`;
+        } else {
+            imagenHTML = `
+                <div class="card-img-top-wrapper d-flex align-items-center justify-content-center bg-light" style="height: 180px;">
+                    <i class="bi bi-book fs-1 text-secondary"></i>
+                </div>
+            `;
+        }
+
         contenedor.innerHTML += `
             <div class="col-md-4">
                 <div class="card promo-card h-100 position-relative">
                     <span class="badge badge-pos ${badgeClass}">${curso.estado || 'borrador'}</span>
                     
-                    <div class="card-img-top-wrapper d-flex align-items-center justify-content-center bg-light" style="height: 180px;">
-                        <i class="bi bi-book fs-1 text-secondary"></i>
-                    </div>
+                    ${imagenHTML}
 
                     <div class="card-body text-center">
                         <h5 class="fw-bold mb-1 text-dark">${titulo}</h5>
